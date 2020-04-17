@@ -1,0 +1,7 @@
+/* 
+This is to make sure that the body of the page is not behind the navbar: 
+See views/layouts/main.hbs 
+*/
+#main-content-wrapper {
+    margin-top: 56px;
+}
