@@ -1,10 +1,13 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const session = require('express-session');
+const configRoutes = require('./routes');
 
-// Initialize App
+// ----------- Initialize App -----------
 const app = express();
 
 
+// ----------- Set up Static Folders -----------
 // Set Static Public Folder
 const static = express.static(__dirname + '/public');
 app.use('/public', static);
@@ -18,20 +21,54 @@ const jquery = express.static(__dirname + '/node_modules/jquery');
 app.use('/jquery', jquery);
 
 
-// Configure Routing from ./routes
-const configRoutes = require('./routes');
-configRoutes(app);
-
-
-// Middleware to Recognize JSON in Requests
+// ----------- Middleware to Recognize JSON in Requests -----------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-// View Engine Setup: Handlebars (extension .hbs instead of .handlebars)
+// ----------- View Engine Setup: Handlebars (extension .hbs instead of .handlebars) -----------
 app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts' }));
 app.set('view engine', 'hbs');
 
+
+// ----------- Express Session Middleware -----------
+app.use(session({
+    name: 'AuthCookie',
+    secret: 'This is the secret used for encrypting cookies! Do not disclose this to anyone!.',
+    resave: false,
+    saveUninitialized: true
+}))
+
+
+// ----------- Custom Middleware -----------
+
+// Logging
+app.use(async (req, res, next) => {
+    let {method, originalUrl} = req;
+    let timeStamp = new Date().toUTCString();
+    let auth = '(Non-Authenticated User)';
+    if (req.session.user) auth = '(Authenticated User)';
+
+    console.log(`[${timeStamp}]: ${method} ${originalUrl} ${auth}`)
+
+    next();
+});
+
+app.use('/dashboard', (req, res, next) => {
+	if (!req.session.user) {
+		return res.status(403).render('error', {
+			title: 'Error',
+			layout: 'navnolinks',
+			error: 'The user is not logged in'
+		});
+	} else {
+		next();
+	}
+});
+
+
+// ----------- Configure Routing from ./routes -----------
+configRoutes(app);
 
 app.listen(3000, () => {
 	console.log("Server running.");

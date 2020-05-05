@@ -1,10 +1,14 @@
+// Add all routing files to this file
+
 const homeRoutes = require('./home');
+const userRoutes = require('./users');
 
 const constructorMethod = (app) => {
-	app.use('/', homeRoutes);
+	app.use('/', userRoutes);
+	app.use('/dashboard', homeRoutes);
 
 	app.use('*', (req, res) => {
-		res.redirect('/');
+		res.sendStatus(404);
 	});
 };
 
