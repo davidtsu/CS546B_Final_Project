@@ -1,6 +1,6 @@
 // Add all routing files to this file
 
-const homeRoutes = require('./home');
+const homeRoutes = require('./dashboard');
 const userRoutes = require('./users');
 
 const constructorMethod = (app) => {

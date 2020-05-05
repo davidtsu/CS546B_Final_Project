@@ -54,17 +54,18 @@ app.use(async (req, res, next) => {
     next();
 });
 
-app.use('/dashboard', (req, res, next) => {
-	if (!req.session.user) {
-		return res.status(403).render('error', {
-			title: 'Error',
-			layout: 'navnolinks',
-			error: 'The user is not logged in'
-		});
-	} else {
-		next();
-	}
-});
+// Must authenticate to get to dashboard
+// app.use('/dashboard', (req, res, next) => {
+// 	if (!req.session.user) {
+// 		return res.status(403).render('error', {
+// 			title: 'Error',
+// 			layout: 'navnolinks',
+// 			error: 'The user is not logged in'
+// 		});
+// 	} else {
+// 		next();
+// 	}
+// });
 
 
 // ----------- Configure Routing from ./routes -----------
