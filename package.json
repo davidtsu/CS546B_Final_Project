@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/davidtsu/CS546B_Final_Project#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "express-handlebars": "^4.0.3",
+    "express-session": "^1.17.1",
     "handlebars": "^4.7.6",
     "jquery": "^3.5.0",
     "mongodb": "^3.5.6"
