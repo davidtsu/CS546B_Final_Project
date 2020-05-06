@@ -37,3 +37,22 @@ See views/layouts/main.hbs
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+table, td{
+    border: 1px solid gray;
+    min-width: 300px;
+}
+
+td {
+    min-width: 100px;
+    text-align: center;
+}
+
+.home-table {
+    padding-left: 50px;
+    float: left;
+}
+
+.table-header {
+    background-color: rgb(238, 238, 238);
+}
