@@ -1,0 +1,31 @@
+<body>
+    <h1>Welcome! Here you can play hangman game</h1>
+    <div>
+        <form id = "selectThemeForm">   
+            <div class="form-group">
+                <label>Select your theme</label><br>
+                <select id ="theme" name = "phrase">
+                    <option>camping</option>
+                    <option>beach</option>
+                </select><br>
+                <button type="submit">Submit</button>                
+            </div>
+
+
+            <div id='chances'></div>
+            
+            <div>
+                <p id='playgame'>Select theme and submit to start a game</p>
+            </div>
+            
+            <div id="wordStatus"></div>
+            
+            <div id="keyboard"></div>
+            
+        </form>
+        <div>
+            <button onclick="reset()">New word</button>
+        </div>
+    </div>
+    <script src='/public/game.js'></script>
+</body>
