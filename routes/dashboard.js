@@ -23,4 +23,10 @@ router.get('/profile', async (req, res, next) => {
   });
 });
 
+router.get('/game', async (req, res, next) => { 
+  res.render('game', {
+    title: 'Hangman game',
+  });
+});
+
 module.exports = router;
