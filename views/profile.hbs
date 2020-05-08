@@ -1,1 +1,34 @@
-<p>Profile Page here</p>
+<div>
+    <h1>User Profile</h1>
+    <p>Profile data should be displayed on this page. This includes win percentage, recent games played.
+    </p>
+
+    <h4>Profile Statistics</h4>
+    <table id='profile-stats-wins'>
+        <tr class='table-header'>
+            <td>Win Total</td>
+            <td>Total Games</td>
+            <td>Win Percentage</td>
+        </tr>
+        <tr>
+            <td>{{win_total}}</td>
+            <td>{{total_games}}</td>
+            <td>{{win_percentage}}</td>
+        </tr>
+    </table>
+
+    <h4>Recent Games</h4>
+    <table id='profile-stats-recent'>
+        <tr class='table-header'>
+            <td>#</td>
+            <td>Word</td>
+            <td>Theme</td>
+            <td>W/L</td>
+        </tr>
+        <!-- tr entries should be dynamically filled -->
+    </table>
+
+    <div>
+        <a href='/dashboard'>Back to Dashboard</a>
+    </div> 
+</div>
