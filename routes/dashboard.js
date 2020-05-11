@@ -23,9 +23,10 @@ router.get('/profile', async (req, res, next) => {
   });
 });
 
+/* GET game page */
 router.get('/game', async (req, res, next) => { 
   res.render('game', {
-    title: 'Hangman game',
+    title: 'Hangman Game',
   });
 });
 
