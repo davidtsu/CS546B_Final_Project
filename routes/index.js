@@ -4,7 +4,7 @@ const homeRoutes = require('./dashboard');
 const userRoutes = require('./users');
 
 const constructorMethod = (app) => {
-	app.use('/', userRoutes);
+	app.use('/users', userRoutes);
 	app.use('/dashboard', homeRoutes);
 
 	app.use('*', (req, res) => {
