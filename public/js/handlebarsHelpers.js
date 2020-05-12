@@ -1,3 +1,3 @@
-Handlebars.registerHelper("equalToZero", (num) => {
-    return num === 0;
-});
+// Handlebars.registerHelper("equalToZero", (num) => {
+//     return num === 0;
+// });
