@@ -82,6 +82,44 @@ let exportedMethods = {
         return await this.getUserById(newInsertInformation.insertedId);
     },
 
+    async addGameWon(userId, gameId) {
+        if (!userId) throw new Error('You must provide a userId');
+        if (!gameId) throw new Error('You must provide a gameId');
+
+        const user = await this.getUserById(userId);
+
+        let userGamesWon = user.gamesWon;
+
+        userGamesWon.push(gameId);
+
+        const userCollection = await users();
+        const updateInfo = await userCollection.updateOne(
+            {_id: userId},
+            {$set: {gamesWon: userGamesWon}}
+        );
+
+        return await this.getUserById(userId);
+    },
+
+    async addGameLost(userId, gameId) {
+        if (!userId) throw new Error('You must provide a userId');
+        if (!gameId) throw new Error('You must provide a gameId');
+
+        const user = await this.getUserById(userId);
+
+        let userGamesLost = user.gamesLost;
+
+        userGamesLost.push(gameId);
+
+        const userCollection = await users();
+        const updateInfo = await userCollection.updateOne(
+            {_id: userId},
+            {$set: {gamesLost: userGamesLost}}
+        );
+
+        return await this.getUserById(userId);
+    },
+
     async removeUser(id) {
         if (!id) throw new Error('You must provide an id');
 
