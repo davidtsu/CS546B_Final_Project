@@ -65,6 +65,10 @@ td {
     color: red;
 }
 
-#incorrect-guesses{
+#incorrect-guesses {
     color: red;
+}
+
+#searchUser {
+    height: 39px;
 }
