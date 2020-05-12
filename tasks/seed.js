@@ -14,6 +14,7 @@ const main = async () => {
 
 	// adding sample users
 	const barry = await users.addUser('barry@gmail.com', '$2a$16$i0l0O9ltA7ftK5QdX1DZ.eVq8DeGEAAhIscjFxbgHCie9GOmsmrbm', 'Barry', 'Berkman', 'Los Angeles', 'California');
+	const harry = await users.addUser('harry@gmail.com', '$2a$16$i0l0O9ltA7ftK5QdX1DZ.eVq8DeGEAAhIscjFxbgHCie9GOmsmrbm', 'Harry', 'Smith', 'NYC', 'New York');
 
 	const gameCheese = await games.addGame('cheese');
 
@@ -33,6 +34,15 @@ const main = async () => {
 		'Czech Republic', 'Sweden', 'Hungary', 'Belarus', 'Austria', 'Serbia', 'Switzerland',
 		'Bulgaria', 'Denmark', 'Finland', 'Slovakia', 'Norway', 'Ireland', 'Croatia', 'Moldova']);
 	// there are definitely more, but I figured I should make at least one large list
+
+
+	const gameGuitar = await games.addGame('guitar');
+
+	const barryPlaysGuitar = await games.addPlayer(gameGuitar._id, barry._id);
+	const barryWinsGuitar = await users.addGameLostID(barry._id, gameGuitar._id);
+
+	const harryPlaysGuitar = await games.addPlayer(gameGuitar._id, harry._id);
+	const harryLosesGuitar = await users.addGameLostID(harry._id, gameGuitar._id);
 
 
 	await db.serverConfig.close();

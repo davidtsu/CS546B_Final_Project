@@ -45,6 +45,10 @@ Handlebars.registerHelper("contains", (arr, val) => {
     return false;
 });
 
+Handlebars.registerHelper('isdefined', function (value) {
+    return value !== undefined;
+});
+
 
 // ----------- Express Session Middleware -----------
 app.use(session({
@@ -59,7 +63,7 @@ app.use(session({
 
 // Logging requests to console
 app.use(async (req, res, next) => {
-    let {method, originalUrl} = req;
+    let { method, originalUrl } = req;
     let timeStamp = new Date().toUTCString();
     let auth = '(Non-Authenticated User)';
     if (req.session.user) auth = '(Authenticated User)';
@@ -71,15 +75,15 @@ app.use(async (req, res, next) => {
 
 // Must authenticate to get to dashboard
 app.use('/dashboard', (req, res, next) => {
-	if (!req.session.user) {
-		return res.status(403).render('error', {
-			title: 'Error',
-			layout: 'navnolinks',
-			error: 'The user is not logged in'
-		});
-	} else {
-		next();
-	}
+    if (!req.session.user) {
+        return res.status(403).render('error', {
+            title: 'Error',
+            layout: 'navnolinks',
+            error: 'The user is not logged in'
+        });
+    } else {
+        next();
+    }
 });
 
 
@@ -87,6 +91,6 @@ app.use('/dashboard', (req, res, next) => {
 configRoutes(app);
 
 app.listen(3000, () => {
-	console.log("Server running.");
-	console.log('Routes will be running on http://localhost:3000');
+    console.log("Server running.");
+    console.log('Routes will be running on http://localhost:3000');
 });

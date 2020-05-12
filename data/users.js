@@ -47,7 +47,7 @@ let exportedMethods = {
         gamesPlayed = [];
 
         for (id of gamesPlayedIDs) {
-            g = await games.getGameById(id);
+            let g = await games.getGameById(id);
             gamesPlayed.push(g);
         }
 
