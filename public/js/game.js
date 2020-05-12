@@ -26,12 +26,12 @@ let wordStatus = null;
 let chancesLeft = 6
 function beach(){
     rand = Math.floor(Math.random()*beachArray.length);
-    answer = beachArray[rand];
+    answer = beachArray[rand].toUpperCase();
 }
 
 function camping(){
     rand = Math.floor(Math.random()*campingArray.length);
-    answer = campingArray[rand];
+    answer = campingArray[rand].toUpperCase();
 }
 
 selectThemeForm.addEventListener("submit", (event) =>{
@@ -79,23 +79,38 @@ function generateButtons(){
     document.getElementById('keyboard').innerHTML = buttonsHTML;
 }
 
-function handleGuess(chosenLetter) {
-    guessed.indexOf(chosenLetter) === -1 ? guessed.push(chosenLetter) : null;
-    document.getElementById(chosenLetter).setAttribute('disabled', true);
-  
-    if (answer.indexOf(chosenLetter) >= 0) {
-        guessedWord();
-        checkResult();
-    }else if (answer.indexOf(chosenLetter) === -1) {
-        chancesLeft = chancesLeft - 1;
-        updateChance();
-        checkResult();
+// ensures that text input field only takes one capital-letter character.
+function validate(input){
+    input.value = input.value.replace(/\W|\d/g, '').substr(0, 1).toUpperCase();
+}
+
+// something here isn't working. It used to take in an input parameter, but I can't get anything to work.
+function handleGuess() {
+    chosenLetter = 'A';//document.getElementById('atext').value;
+    if (!chosenLetter) console.log('No input!', chosenLetter);
+    try {
+        let patt=/[A-z]/g;
+        if (patt.test(chosenLetter)) {
+            guessed.indexOf(chosenLetter) === -1 ? guessed.push(chosenLetter) : null;
+            //document.getElementById(chosenLetter).setAttribute('disabled', true);
+        
+            if (answer.indexOf(chosenLetter) >= 0) {
+                guessedWord();
+                checkResult();
+            } else if (answer.indexOf(chosenLetter) === -1) {
+                chancesLeft = chancesLeft - 1;
+                updateChance();
+                checkResult();
+            }
+        }
+    } catch (err) {
+        console.log(err);
     }
 }
 
 function guessedWord(){
     wordStatus = []
-    alphabets = answer.split('')
+    alphabets = answer.toUpperCase().split('')
     for(i = 0; i < alphabets.length; i++ ){
         if (guessed.includes(alphabets[i])){
             wordStatus.push(alphabets[i])
@@ -120,6 +135,7 @@ function checkResult() {
   
 }
 
+// currently used to update chancesLeft and cycle the image.
 function updateChance(){
     document.getElementById('chances').innerHTML = "Chances Left: " +chancesLeft
     const img = document.getElementById('chances-left')

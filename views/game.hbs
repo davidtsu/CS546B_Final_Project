@@ -1,7 +1,7 @@
 <div class="container-fluid">
-    <h1>Welcome to Hangman!</h1>
+    <h1 class="text-center">Welcome to Hangman!</h1>
     <div>
-        <form id = "selectThemeForm">   
+        <form id="selectThemeForm">   
             <div class="form-group">
                 <label>Select your theme</label><br>
                 <select id="theme" name="phrase">
@@ -25,6 +25,9 @@
             </div>
             
             <div id="wordStatus"></div>
+
+            <input type="text" id="atext" maxlength="1" onkeyup="validate(this);"/>
+            <button id="guess-btn" onclick="handleGuess();">Guess</button>
             
             <div id="keyboard"></div>
             
