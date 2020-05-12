@@ -1,40 +1,25 @@
 <div class="container-fluid">
     <h1 class="text-center">Welcome to Hangman!</h1>
-    <div>
-        <form id="selectThemeForm">   
-            <div class="form-group">
-                <label>Select your theme</label><br>
-                <select id="theme" name="phrase">
-                    <option>camping</option>
-                    <option>beach</option>
-                </select><br>
-                <select id="game-theme">
-                    <!-- dynamically fill options with fetched themes -->
-                </select><br>
-                <button type="submit">Submit</button>                
-            </div>
+    <div class='text-center'>
+        <h2 id="wordStatus"></h2>
+        <h2 id='game-results'></h2>
 
-
-            <div id='chances'></div>
-            <div id="img-container" class='text-center'>
-                <img src='/public/img/6_left.png' id='chances-left'> 
-            </div>
-            
-            <div>
-                <p id='playgame'>Select theme and submit to start a game</p>
-            </div>
-            
-            <div id="wordStatus"></div>
-
-            <input type="text" id="atext" maxlength="1" onkeyup="validate(this);"/>
-            <button id="guess-btn" onclick="handleGuess();">Guess</button>
-            
-            <div id="keyboard"></div>
-            
-        </form>
-        <div>
-            <button onclick="reset()">New word</button>
+        <div id="img-container">
+            <img src='/public/img/6_left.png' id='chances-left'> 
         </div>
+
+        <label for='incorrect-guesses'>Attempts:</h2>
+        <h2 id='incorrect-guesses'></h2>
+
+        <form id='game-form'>
+            <input type="text" id="atext" maxlength="1" onkeyup="validate(this);"/>
+            <button id="guess-btn" type='submit'>Guess</button>
+        </form>
+
+        <div class='hidden form-group' id='error-container'>
+            <div class="alert alert-danger text-goes-here"></div>
+        </div>
+
     </div>
     <script src='/public/js/game.js'></script>
 </div>
