@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     <h1>User Profile</h1>
     <p>Profile data should be displayed on this page. This includes win percentage, recent games played.
     </p>
@@ -11,9 +11,15 @@
             <td>Win Percentage</td>
         </tr>
         <tr>
-            <td>{{win_total}}</td>
-            <td>{{total_games}}</td>
-            <td>{{win_percentage}}</td>
+            <td>{{user.gamesWon}}</td>
+            <td>{{user.gamesPlayed.length}}</td>
+            
+             {{!-- Fix this to display the ratio, gota use handlebars helpers or something like that --}}
+            {{!-- {{#ifEquals user.gamesPlayed.length 0}}
+            <td> {{user.gamesWon / user.games.length}} </td>
+            {{else}}
+            <td> N/A </td>
+            {{/if}} --}}
         </tr>
     </table>
 
@@ -30,5 +36,5 @@
 
     <div>
         <a href='/dashboard'>Back to Dashboard</a>
-    </div> 
+    </div>
 </div>

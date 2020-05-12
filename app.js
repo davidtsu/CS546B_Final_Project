@@ -42,7 +42,7 @@ app.use(session({
 
 // ----------- Custom Middleware -----------
 
-// Logging
+// Logging requests to console
 app.use(async (req, res, next) => {
     let {method, originalUrl} = req;
     let timeStamp = new Date().toUTCString();
@@ -55,17 +55,17 @@ app.use(async (req, res, next) => {
 });
 
 // Must authenticate to get to dashboard
-// app.use('/dashboard', (req, res, next) => {
-// 	if (!req.session.user) {
-// 		return res.status(403).render('error', {
-// 			title: 'Error',
-// 			layout: 'navnolinks',
-// 			error: 'The user is not logged in'
-// 		});
-// 	} else {
-// 		next();
-// 	}
-// });
+app.use('/dashboard', (req, res, next) => {
+	if (!req.session.user) {
+		return res.status(403).render('error', {
+			title: 'Error',
+			layout: 'navnolinks',
+			error: 'The user is not logged in'
+		});
+	} else {
+		next();
+	}
+});
 
 
 // ----------- Configure Routing from ./routes -----------
