@@ -174,8 +174,21 @@ let exportedMethods = {
         );
 
         return await this.getGameById(gameId);
-    }
+    },
 
+    async getMostRecent() {
+        const gameCollection = await games();
+        const gameList = await gameCollection.find({}).limit(10).toArray();
+        return gameList;
+    },
+
+    async getMostRecentID(id) {
+        if (!id) throw new Error('You must provide an id');
+
+        const gameCollection = await games();
+        const gameList = await gameCollection.find({playedBy: id}).limit(10).toArray();
+        return gameList;
+    }
 
 };
 

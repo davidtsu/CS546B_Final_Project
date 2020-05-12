@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require("../data");
 const users = data.users;
+const games = data.games;
 
 /* GET home page. */
 router.get('/', async (req, res, next) => { 
@@ -21,18 +22,35 @@ router.get('/highscores', async (req, res, next) => {
 
 /* GET profile page. */
 router.get('/profile', async (req, res, next) => { 
+  let totalGames = req.session.user.gamesWon.length + req.session.user.gamesLost.length;
+  let winPercentage = 0;
+  if (totalGames != 0) {
+    winPercentage = (req.session.user.gamesWon.length / totalGames) * 100;
+  }
+  let recentGames = await games.getMostRecentID(req.session.user);
+  console.log("Recent Games");
+  console.log(recentGames);
   res.render('profile', {
     title: 'Hangman User Profile',
-    user: req.session.user
+    user: req.session.user,
+    win: winPercentage,
+    total: totalGames,
+    recentGames: recentGames
   });
 });
 
 /* GET profile page for other users */
 router.get('/profile/:id', async (req, res, next) => { 
   let user = await users.getUserById(req.params.id);
+  let totalGames = user.gamesWon.length + user.gamesLost.length;
+  if (totalGames != 0) {
+    winPercentage = user.gamesWon.length / totalGames;
+  }
   res.render('profile', {
     title: 'Hangman User Profile',
-    user: user
+    user: user,
+    win: winPercentage,
+    total: totalGames
   });
 });
 
