@@ -1,7 +1,12 @@
 const dbConnection = require('../config/mongoConnection');
 const data = require('../data/');
+const uuid = require('uuid');
 const users = data.users;
+const games = data.games;
+const comments = data.comments;
 const dictionaries = data.dictionaries;
+
+
 
 const main = async () => {
 	const db = await dbConnection();
@@ -9,6 +14,11 @@ const main = async () => {
 
 	// adding sample users
 	const barry = await users.addUser('barry@gmail.com', '$2a$16$i0l0O9ltA7ftK5QdX1DZ.eVq8DeGEAAhIscjFxbgHCie9GOmsmrbm', 'Barry', 'Berkman', 'Los Angeles', 'California');
+
+  const gameCheese = await games.addGame('cheese');
+
+	const gameCheeseComment1 = await comments.addCommentToGame(gameCheese._id, barry._id, "This game sucks.");
+  
 
 
 	// adding sample dictionaries
@@ -19,6 +29,7 @@ const main = async () => {
 																			'Czech Republic', 'Sweden', 'Hungary', 'Belarus', 'Austria', 'Serbia', 'Switzerland',
 																			'Bulgaria', 'Denmark', 'Finland', 'Slovakia', 'Norway', 'Ireland', 'Croatia', 'Moldova']);
 																			// there are definitely more, but I figured I should make at least one large list
+
 
 	await db.serverConfig.close();
 
