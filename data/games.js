@@ -117,6 +117,25 @@ let exportedMethods = {
         return await this.getGameById(id);
     },
 
+    async addThemeToGame(gameId, dictionaryId) {
+        if (!gameId) throw new Error('You must provide a gameId');
+        if (!dictionaryId) throw new Error('You must provide a dictionaryId');
+
+        const game = await this.getGameById(gameId);
+
+        let themeList = game.partOf;
+
+        themeList.push(dictionaryId);
+
+        const gameCollection = await games();
+        const updateInfo = await gameCollection.updateOne(
+            {_id: gameId},
+            {$set: {partOf: themeList}}
+        );
+
+        return await this.getGameById(gameId);
+    },
+
     async addCommentToGame(gameId, comment) {
         if (!gameId) throw new Error('You must provide an id');
         if (!comment) throw new Error('You must provide a comment');

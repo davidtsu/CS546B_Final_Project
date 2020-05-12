@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const dictionaries = mongoCollections.dictionaries;
 const uuid = require('uuid');
+const games = require('./games');
 
 let exportedMethods = {
 
@@ -20,8 +21,8 @@ let exportedMethods = {
     },
 
     async addDictionary(theme, wordList) {
-        if(!theme) throw new Error('No theme supplied for dictionary.');
-        if(!word_list) throw new Error('No words provided for dictionary.');
+        if (!theme) throw new Error('No theme supplied for dictionary.');
+        if (!wordList) throw new Error('No words provided for dictionary.');
 
         if (typeof theme != 'string') throw new TypeError('theme must be of type string');
         if (!Array.isArray(wordList)) throw new TypeError('word_list');
@@ -31,12 +32,32 @@ let exportedMethods = {
             theme: theme,
             words: wordList
         };
-        
+
         const dictionaryCollection = await dictionaries();
         const newInsertInformation = await dictionaryCollection.insertOne(newDictionary);
 
-
         if (newInsertInformation.insertedCount === 0) throw 'Insert failed!';
+
+        // Insertion of the dictionary is a success, now create new games 
+        // out of each word in the wordList if a game does not already exist
+        let tempGame;
+        for (w of wordList) {
+            let gameExists;
+            try {
+                tempGame = await games.getGameByWord(w);
+                gameExists = true;
+            } catch (err) {
+                gameExists = false;
+            }
+
+            if (gameExists) {
+                const updateThemeGame = await games.addThemeToGame(tempGame._id, newDictionary._id);
+            } else {
+                const newGame = await games.addGame(w);
+                const upgateThemeNewGame = await games.addThemeToGame(newGame._id, newDictionary._id);
+            }
+        }
+
         return await this.getDictionaryById(newInsertInformation.insertedId);
     },
 
