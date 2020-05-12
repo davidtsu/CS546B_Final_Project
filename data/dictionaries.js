@@ -5,8 +5,10 @@ const uuid = require('uuid');
 let exportedMethods = {
 
     async getAllDictionaries() {
+        console.log('fetching all dictionaries')
         const dictionaryCollection = await dictionaries();
         const dictionaryList = await dictionaryCollection.find({}).toArray();
+        console.log(dictionaryList)
         return dictionaryList;
     },
 

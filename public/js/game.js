@@ -1,3 +1,19 @@
+// (async function () {
+//     const db = await dbConnection();
+// 	await db.dropDatabase();
+//     const all_dicts = dictionaries.getAllDictionaries();
+// 	await db.serverConfig.close();
+    
+//     let themeElement = document.getElementById("game-theme");
+//     for(let item in all_dicts){
+//         console.log('all_dicts=', all_dicts)
+//         var dict = document.createElement('option')
+//         var dict_name = document.createTextNode(item['theme'])
+//         dict.appendChild(dict_name)
+//         themeElement.appendChild(dict)
+//     }
+// })();
+
 var beachArray = ['sand', 'beach', 'surfing', 'waves', 'boardwalk', 'surfboard', 'shore', 'coast', 'sandbar'];
 var campingArray = ['backpack', 'fishing' ,'campfire', 'forest', 'birds', 'animals', 'trees', 'waterfall'];
 
