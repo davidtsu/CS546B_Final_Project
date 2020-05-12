@@ -1,6 +1,6 @@
 const mongoCollections = require('../config/mongoCollections');
 const dictionaries = mongoCollections.dictionaries;
-// const uuid = require('uuid');
+const uuid = require('uuid');
 
 let exportedMethods = {
 
@@ -18,6 +18,8 @@ let exportedMethods = {
     },
 
     async addDictionary(theme, word_list) {
+        if(!theme) throw('No theme supplied for dictionary.');
+        if(!word_list) throw('No words provided for dictionary.');
 
         const dictionaryCollection = await dictionaries();
 

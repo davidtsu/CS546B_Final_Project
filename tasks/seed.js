@@ -1,6 +1,7 @@
 const dbConnection = require('../config/mongoConnection');
 const data = require('../data/');
 const users = data.users;
+const dictionaries = data.dictionaries;
 
 const main = async () => {
 	const db = await dbConnection();
@@ -17,7 +18,8 @@ const main = async () => {
 																			'Spain', 'Ukraine', 'Poland', 'Romania', 'Netherlands', 'Belgium', 'Greece',
 																			'Czech Republic', 'Sweden', 'Hungary', 'Belarus', 'Austria', 'Serbia', 'Switzerland',
 																			'Bulgaria', 'Denmark', 'Finland', 'Slovakia', 'Norway', 'Ireland', 'Croatia', 'Moldova']);
-																			// there are definitely more, but I figured I should make one large list
+																			// there are definitely more, but I figured I should make at least one large list
+
 	await db.serverConfig.close();
 
 	
