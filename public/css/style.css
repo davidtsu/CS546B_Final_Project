@@ -56,3 +56,19 @@ td {
 .table-header {
     background-color: rgb(238, 238, 238);
 }
+
+.success {
+    color: green;
+}
+
+.failure {
+    color: red;
+}
+
+#incorrect-guesses {
+    color: red;
+}
+
+#searchUser {
+    height: 39px;
+}

@@ -47,6 +47,16 @@ router.get('/profile', async (req, res, next) => {
   });
 });
 
+/* GET profile page for other users */
+router.get('/profile/:id', async (req, res, next) => { 
+  let user = await users.getUserById(req.params.id);
+  res.render('profile', {
+    title: 'Hangman User Profile',
+    user: user
+  });
+});
+
+
 /* GET game page. */
 router.get('/game', async (req, res, next) => {
   res.render('game', {

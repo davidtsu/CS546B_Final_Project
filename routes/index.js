@@ -2,10 +2,12 @@
 
 const homeRoutes = require('./dashboard');
 const userRoutes = require('./users');
+const searchRoutes = require('./search');
 
 const constructorMethod = (app) => {
 	app.use('/', userRoutes);
 	app.use('/dashboard', homeRoutes);
+	app.use('/search', searchRoutes);
 
 	app.use('*', (req, res) => {
 		res.sendStatus(404);

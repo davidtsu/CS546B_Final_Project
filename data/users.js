@@ -157,7 +157,16 @@ let exportedMethods = {
         return true;
     },
 
-
+    async searchUser(search) {
+        try {
+        searchUser = search.toLowerCase();
+        const userCollection = await users();
+        const searchUserList = await userCollection.find({ email: {'$regex': searchUser} }).toArray();
+        return searchUserList;
+        } catch (err) {
+            throw err;
+        }
+    }
 
     // async updateUser(id, email, hashedPassword) {
     //     if (!id) throw new Error('You must provide an id');
