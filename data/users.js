@@ -70,9 +70,8 @@ let exportedMethods = {
             lastName: lastName,
             city: city,
             state: state,
-            gamesPlayed: [],
-            gamesWon: 0,
-            gamesLost: 0
+            gamesWon: [],
+            gamesLost: []
         };
 
         const userCollection = await users();

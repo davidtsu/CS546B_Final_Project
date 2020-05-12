@@ -47,7 +47,6 @@ router.post('/login', async (req, res) => {
 		lastName: user.lastName,
 		city: user.city,
 		state: user.state,
-		gamesPlayed: user.gamesPlayed,
 		gamesWon: user.gamesWon,
 		gamesLost: user.gamesLost
 	}
@@ -91,7 +90,6 @@ router.post('/signup', async (req, res) => {
 		lastName: user.lastName,
 		city: user.city,
 		state: user.state,
-		gamesPlayed: user.gamesPlayed,
 		gamesWon: user.gamesWon,
 		gamesLost: user.gamesLost
 	}
