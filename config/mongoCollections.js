@@ -19,5 +19,6 @@ module.exports = {
   users: getCollectionFn("users"),
   // games: getCollectionFn("games"),
   // comments: getCollectionFn("comments"),
-  // gameMetrics: getCollectionFn("gameMetrics")
+  // gameMetrics: getCollectionFn("gameMetrics"),
+  dictionaries: getCollectionFn("dictionaries")
 };

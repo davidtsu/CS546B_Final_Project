@@ -5,9 +5,22 @@ const users = data.users;
 const main = async () => {
 	const db = await dbConnection();
 	await db.dropDatabase();
+
+	// adding sample users
 	const barry = await users.addUser('barry@gmail.com', '$2a$16$i0l0O9ltA7ftK5QdX1DZ.eVq8DeGEAAhIscjFxbgHCie9GOmsmrbm', 'Barry', 'Berkman', 'Los Angeles', 'California');
 
+
+	// adding sample dictionaries
+	const beach_dict = await dictionaries.addDictionary('Beach', ['sand', 'beach', 'surfing', 'waves', 'boardwalk', 'surfboard', 'shore', 'coast', 'sandbar']);
+	const camping_dict = await dictionaries.addDictionary('Camping', ['backpack', 'fishing' ,'campfire', 'forest', 'birds', 'animals', 'trees', 'waterfall']);
+	const eu_dict = await dictionaries.addDictionary('European Countries', ['Russia', 'France', 'Italy', 'Germany', 'United Kingdom', 'Albania', 'Portugal',
+																			'Spain', 'Ukraine', 'Poland', 'Romania', 'Netherlands', 'Belgium', 'Greece',
+																			'Czech Republic', 'Sweden', 'Hungary', 'Belarus', 'Austria', 'Serbia', 'Switzerland',
+																			'Bulgaria', 'Denmark', 'Finland', 'Slovakia', 'Norway', 'Ireland', 'Croatia', 'Moldova']);
+																			// there are definitely more, but I figured I should make one large list
 	await db.serverConfig.close();
+
+	
 };
 
 main().catch(console.log);
