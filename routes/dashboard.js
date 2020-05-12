@@ -26,11 +26,19 @@ router.get('/profile', async (req, res, next) => {
   });
 });
 
-/* GET game page */
+/* GET game page. */
 router.get('/game', async (req, res, next) => { 
   res.render('game', {
     title: 'Hangman Game',
     user: req.session.user
+  });
+});
+
+/* GET comments for a game. */
+// TODO: switch to :id, should be specific to comment
+router.get('/comments', async (req, res, next) => {
+  res.render('comments', {
+    title: 'Game Log'
   });
 });
 
