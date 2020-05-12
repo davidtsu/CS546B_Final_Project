@@ -155,6 +155,25 @@ let exportedMethods = {
         if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw new Error('Comment add failed');
 
         return await this.getGameById(gameId);
+    },
+
+    async addPlayer(gameId, userId) {
+        if (!gameId) throw new Error('You must provide a gameId');
+        if (!userId) throw new Error('You must provide a userId');
+
+        const game = await this.getGameById(gameId);
+
+        let userPlayedList = game.playedBy;
+
+        userPlayedList.push(userId);
+
+        const gameCollection = await games();
+        const updateInfo = await gameCollection.updateOne(
+            {_id: gameId},
+            {$set: {playedBy: userPlayedList}}
+        );
+
+        return await this.getGameById(gameId);
     }
 
 
