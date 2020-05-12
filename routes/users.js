@@ -17,15 +17,15 @@ router.get('/', async (req, res) => {
 
 
 router.post('/login', async (req, res) => {
-	// get req.body username and password
-	let { email, password } = req.body;
+
+	let { loginEmail, loginPassword } = req.body;
 	
 	let user, userFound, match;
 
 	try {
-		user = await users.getUserByEmail(email);
+		user = await users.getUserByEmail(loginEmail);
 		userFound = true;
-		match = await bcrypt.compare(password, user.hashedPassword);
+		match = await bcrypt.compare(loginPassword, user.hashedPassword);
 	} catch (err) {
 		console.log(err);
 		userFound = false;
@@ -35,7 +35,7 @@ router.post('/login', async (req, res) => {
 	if (!userFound || !match) {
 		res.status(401).render('login', {
 			title: 'Login',
-			error: 'Invalid username and/or password.',
+			loginError: 'Invalid username and/or password.',
 			layout: 'navnolinks'
 		});
 		return;
@@ -43,15 +43,62 @@ router.post('/login', async (req, res) => {
 
 	let userInfo = {
 		email: user.email,
-		// username: user.username,
-		// firstName: user.firstName,
-		// lastName: user.lastName,
-		// profession: user.profession,
-		// bio: user.bio,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		city: user.city,
+		state: user.state,
+		gamesPlayed: user.gamesPlayed,
+		gamesWon: user.gamesWon,
+		gamesLost: user.gamesLost
 	}
 	
 	req.session.user = userInfo;
 	res.redirect('/dashboard');
+});
+
+router.post('/signup', async (req, res) => {
+	let { signupEmail, signupPassword, signupFirstName, signupLastName, signupCity, signupState } = req.body;
+
+	let hashedPassword = await bcrypt.hash(signupPassword, 16);
+
+	try {
+		const user = await users.addUser(signupEmail, hashedPassword, signupFirstName, signupLastName, signupCity, signupState);
+	} catch (err) {
+		// Email already exists
+		let signupInfo = {
+			email: signupEmail,
+			password: signupPassword,
+			firstName: signupFirstName,
+			lastName: signupLastName,
+			city: signupCity,
+			state: signupState
+		}
+		res.status(401).render('login', {
+			title: 'Login',
+			signupError: err.message,
+			layout: 'navnolinks',
+			signupAttempt: signupInfo
+		});
+		return;
+	}
+
+	//Successful signup, start a new session with the newly created user account
+	const user = await users.getUserByEmail(signupEmail);
+
+	let userInfo = {
+		email: user.email,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		city: user.city,
+		state: user.state,
+		gamesPlayed: user.gamesPlayed,
+		gamesWon: user.gamesWon,
+		gamesLost: user.gamesLost
+	}
+
+	req.session.user = userInfo;
+	res.redirect('/dashboard');
+
 });
 
 router.get('/logout', async (req, res) => {
@@ -59,7 +106,7 @@ router.get('/logout', async (req, res) => {
 	res.render('logout', {
 		title: 'Logged Out',
 		layout: 'navnolinks'
-	})
+	});
 });
 
 module.exports = router;
