@@ -1,6 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const users = mongoCollections.users;
 const uuid = require('uuid');
+const games = require('./games');
 
 let exportedMethods = {
 
@@ -33,6 +34,24 @@ let exportedMethods = {
         if (!user) throw new Error(`User with id of ${id} not found`);
 
         return user;
+    },
+
+    async getGamesPlayed(id) {
+        if (!id) throw new Error('You must provide an id');
+
+        const user = await this.getUserById(id);
+
+
+        gamesPlayedIDs = user.gamesPlayedIDs;
+
+        gamesPlayed = [];
+
+        for (id of gamesPlayedIDs) {
+            let g = await games.getGameById(id);
+            gamesPlayed.push(g);
+        }
+
+        return gamesPlayed;
     },
 
     async addUser(email, hashedPassword, firstName, lastName, city, state) {
@@ -70,8 +89,9 @@ let exportedMethods = {
             lastName: lastName,
             city: city,
             state: state,
-            gamesWon: [],
-            gamesLost: []
+            gamesPlayedIDs: [],
+            gamesWonIDs: [],
+            gamesLostIDs: []
         };
 
         const userCollection = await users();
@@ -82,39 +102,43 @@ let exportedMethods = {
         return await this.getUserById(newInsertInformation.insertedId);
     },
 
-    async addGameWon(userId, gameId) {
+    async addGameWonID(userId, gameId) {
         if (!userId) throw new Error('You must provide a userId');
         if (!gameId) throw new Error('You must provide a gameId');
 
         const user = await this.getUserById(userId);
 
-        let userGamesWon = user.gamesWon;
+        let userGamesWon = user.gamesWonIDs;
+        let userGamesPlayed = user.gamesPlayedIDs;
 
         userGamesWon.push(gameId);
+        userGamesPlayed.push(gameId);
 
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
             {_id: userId},
-            {$set: {gamesWon: userGamesWon}}
+            {$set: {gamesWonIDs: userGamesWon, gamesPlayedIDs: userGamesPlayed}}
         );
 
         return await this.getUserById(userId);
     },
 
-    async addGameLost(userId, gameId) {
+    async addGameLostID(userId, gameId) {
         if (!userId) throw new Error('You must provide a userId');
         if (!gameId) throw new Error('You must provide a gameId');
 
         const user = await this.getUserById(userId);
 
-        let userGamesLost = user.gamesLost;
+        let userGamesLost = user.gamesLostIDs;
+        let userGamesPlayed = user.gamesPlayedIDs;
 
         userGamesLost.push(gameId);
+        userGamesPlayed.push(gameId);
 
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
             {_id: userId},
-            {$set: {gamesLost: userGamesLost}}
+            {$set: {gamesLostIDs: userGamesLost, gamesPlayedIDs: userGamesPlayed}}
         );
 
         return await this.getUserById(userId);
