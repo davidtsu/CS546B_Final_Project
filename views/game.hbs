@@ -16,27 +16,9 @@
 
 
             <div id='chances'></div>
-            {{#if 6_left}}
-                <img src='/public/img/6_left.png'> 
-            {{/if}}
-            {{#if 5_left}}
-                <img src='/public/img/5_left.png'> 
-            {{/if}}
-            {{#if 4_left}}
-                <img src='/public/img/4_left.png'> 
-            {{/if}}
-            {{#if 3_left}}
-                <img src='/public/img/3_left.png'> 
-            {{/if}}
-            {{#if 2_left}}
-                <img src='/public/img/2_left.png'> 
-            {{/if}}
-            {{#if 1_left}}
-                <img src='/public/img/1_left.png'> 
-            {{/if}}
-            {{#if 0_left}}
-                <img src='/public/img/0_left.png'> 
-            {{/if}}
+            <div id="img-container" class='text-center'>
+                <img src='/public/img/6_left.png' id='chances-left'> 
+            </div>
             
             <div>
                 <p id='playgame'>Select theme and submit to start a game</p>
@@ -51,5 +33,5 @@
             <button onclick="reset()">New word</button>
         </div>
     </div>
-    <script src='/public/game.js'></script>
+    <script src='/public/js/game.js'></script>
 </div>

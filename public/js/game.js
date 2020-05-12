@@ -122,6 +122,33 @@ function checkResult() {
 
 function updateChance(){
     document.getElementById('chances').innerHTML = "Chances Left: " +chancesLeft
+    const img = document.getElementById('chances-left')
+
+    switch (chancesLeft){
+        default:
+            img.src='/public/img/6_left.png';
+            break;
+        case 6:
+            img.src='/public/img/6_left.png';
+            break;
+        case 5:
+            img.src='/public/img/5_left.png';
+            break;
+        case 4:
+            img.src='/public/img/4_left.png';
+            break;
+        case 3:
+            img.src='/public/img/3_left.png';
+            break;
+        case 2:
+            img.src='/public/img/2_left.png';
+            break;
+        case 1:
+            img.src='/public/img/1_left.png';
+            break;
+        case 0:
+            img.src='/public/img/0_left.png';
+    }
 }
   
 function reset() {
