@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/', async (req, res, next) => { 
   res.render('home', {
     title: 'Hangman Home',
+    user: req.session.user
   });
 });
 
@@ -13,6 +14,7 @@ router.get('/', async (req, res, next) => {
 router.get('/highscores', async (req, res, next) => { 
   res.render('highscores', {
     title: 'Hangman High Scores',
+    user: req.session.user
   });
 });
 
@@ -20,13 +22,15 @@ router.get('/highscores', async (req, res, next) => {
 router.get('/profile', async (req, res, next) => { 
   res.render('profile', {
     title: 'Hangman User Profile',
+    user: req.session.user
   });
 });
 
 /* GET game page. */
 router.get('/game', async (req, res, next) => { 
   res.render('game', {
-    title: 'Hangman game',
+    title: 'Hangman Game',
+    user: req.session.user
   });
 });
 
