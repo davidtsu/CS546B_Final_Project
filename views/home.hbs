@@ -14,19 +14,15 @@
             </tr>
             {{#each userGames}}
             <tr>
-                {{!-- <td>{{this.}}</td> --}}
                 <td>{{this.word}}</td>
-                {{#if (contains user.gamesWonIDs this._id)}}
-                <td>Won</td>
+                {{#if (containsWinner ../user this._id)}}
+                <td>Won {{user.firstName}}</td>
                 {{else}}
                 <td>Lost</td>
                 {{/if}}
             </tr>
             {{/each}}
 
-            {{#each user.gamesWonIDs}}
-            <tr><td>{{user.gamesWonIDs}}</td></tr>
-            {{/each}}
         </table>
     </div>
 
@@ -58,7 +54,7 @@
             <tr>
                 <td><a href="/dashboard/game&gameId={{this._id}}">{{this.gameNumber}}</a></td>
                 <td>{{this.latestPlayer.firstName}}</td>
-                {{#if (contains this.latestPlayer.gamesWon this._id)}}
+                {{#if (containsWinner this.latestPlayer this._id)}}
                 <td>Won</td>
                 {{else}}
                 <td>Lost</td>

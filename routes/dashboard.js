@@ -18,7 +18,6 @@ router.get('/', async (req, res, next) => {
   for (g of allGames) {
     if (g.latestPlayerId) { 
       let latestPlayer = await users.getUserById(g.latestPlayerId);
-      console.log(latestPlayer);
       g.latestPlayer = latestPlayer;
     }
   }

@@ -42,7 +42,7 @@ const main = async () => {
 	const barryWinsGuitar = await users.addGameWonID(barry._id, gameGuitar._id);
 
 	const harryPlaysGuitar = await games.addPlayer(gameGuitar._id, harry._id);
-	const harryLosesGuitar = await users.addGameLostID(harry._id, gameGuitar._id);
+	const harryWinsGuitar = await users.addGameWonID(harry._id, gameGuitar._id);
 
 
 	await db.serverConfig.close();
