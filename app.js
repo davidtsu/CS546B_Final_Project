@@ -1,5 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
 const session = require('express-session');
 const configRoutes = require('./routes');
 
@@ -29,6 +30,20 @@ app.use(express.urlencoded({ extended: true }));
 // ----------- View Engine Setup: Handlebars (extension .hbs instead of .handlebars) -----------
 app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts' }));
 app.set('view engine', 'hbs');
+
+
+// Handlebars Helpers
+Handlebars.registerHelper("contains", (arr, val) => {
+    if (!Array.isArray(arr)) {
+        arr = [arr]
+    }
+
+    if (arr.indexOf(val) >= 0) {
+        return true;
+    }
+
+    return false;
+});
 
 
 // ----------- Express Session Middleware -----------

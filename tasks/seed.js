@@ -19,7 +19,7 @@ const main = async () => {
 
 	const barryPlaysCheese = await games.addPlayer(gameCheese._id, barry._id);
 
-	const barryLosesCheese = await users.addGameLost(barry._id, gameCheese._id);
+	const barryLosesCheese = await users.addGameLostID(barry._id, gameCheese._id);
 
 	const gameCheeseComment1 = await comments.addCommentToGame(gameCheese._id, barry._id, "This game sucks.");
 

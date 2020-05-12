@@ -1,12 +1,26 @@
 const express = require('express');
 const router = express.Router();
+const data = require("../data");
+const games = data.games;
+const dictionaries = data.dictionaries;
+const users = data.users;
 
 
 /* GET home page. */
 router.get('/', async (req, res, next) => { 
+  const currentUser = req.session.user;
+
+  const userGames = await users.getGamesPlayed(currentUser._id);
+  
+  const allDict = await dictionaries.getAllDictionaries();
+  const allGames = await games.getAllGames();
+
   res.render('home', {
     title: 'Hangman Home',
-    user: req.session.user
+    user: currentUser,
+    userGames: userGames,
+    allDictionaries: allDict,
+    allGames: allGames
   });
 });
 
