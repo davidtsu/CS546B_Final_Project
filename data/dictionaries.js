@@ -19,19 +19,23 @@ let exportedMethods = {
         return dictionary;
     },
 
-    async addDictionary(theme, word_list) {
-        if(!theme) throw('No theme supplied for dictionary.');
-        if(!word_list) throw('No words provided for dictionary.');
+    async addDictionary(theme, wordList) {
+        if(!theme) throw new Error('No theme supplied for dictionary.');
+        if(!word_list) throw new Error('No words provided for dictionary.');
 
-        const dictionaryCollection = await dictionaries();
+        if (typeof theme != 'string') throw new TypeError('theme must be of type string');
+        if (!Array.isArray(wordList)) throw new TypeError('word_list');
 
         let newDictionary = {
+            _id: uuid.v4(),
             theme: theme,
-            words: word_list,
-            _id: uuid.v4()
+            words: wordList
         };
-
+        
+        const dictionaryCollection = await dictionaries();
         const newInsertInformation = await dictionaryCollection.insertOne(newDictionary);
+
+
         if (newInsertInformation.insertedCount === 0) throw 'Insert failed!';
         return await this.getDictionaryById(newInsertInformation.insertedId);
     },
