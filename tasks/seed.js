@@ -39,7 +39,7 @@ const main = async () => {
 	const gameGuitar = await games.addGame('guitar');
 
 	const barryPlaysGuitar = await games.addPlayer(gameGuitar._id, barry._id);
-	const barryWinsGuitar = await users.addGameLostID(barry._id, gameGuitar._id);
+	const barryWinsGuitar = await users.addGameWonID(barry._id, gameGuitar._id);
 
 	const harryPlaysGuitar = await games.addPlayer(gameGuitar._id, harry._id);
 	const harryLosesGuitar = await users.addGameLostID(harry._id, gameGuitar._id);

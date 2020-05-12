@@ -91,8 +91,9 @@ router.post('/signup', async (req, res) => {
 		lastName: user.lastName,
 		city: user.city,
 		state: user.state,
-		gamesWon: user.gamesWon,
-		gamesLost: user.gamesLost
+		gamesPlayedIDs: user.gamesPlayedIDs,
+		gamesWonIDs: user.gamesWonIDs,
+		gamesLostIDs: user.gamesLostIDs
 	}
 
 	req.session.user = userInfo;
