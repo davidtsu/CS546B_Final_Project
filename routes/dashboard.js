@@ -32,6 +32,26 @@ router.get('/', async (req, res, next) => {
   });
 });
 
+router.get('/allgames', async (req, res, next) => {
+  const currentUser = req.session.user;
+
+  const allGames = await games.getAllGames();
+
+  let sortedGames = allGames.sort((a, b) => (a.gameNumber > b.gameNumber) ? 1 : -1);
+
+  for (g of sortedGames) {
+    if (g.latestPlayerId) {
+      let latestPlayer = await users.getUserById(g.latestPlayerId);
+      g.latestPlayer = latestPlayer;
+    }
+  }
+
+  res.render('allgames', {
+    title: 'Hangman All Games',
+    allGames: sortedGames
+  });
+});
+
 /* GET high scores page. */
 router.get('/highscores', async (req, res, next) => {
   const allUsers = await users.getAllUsers()
@@ -180,7 +200,7 @@ router.get('/comments/:id', async (req, res) => {
 
     if (commentList) {
       res.render('comments', {
-        title: 'Game Log',
+        title: 'Game Results',
         comments: commentList,
         gameWon: gameWon,
         game: game

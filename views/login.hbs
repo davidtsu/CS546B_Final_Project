@@ -8,7 +8,7 @@
         <label for="loginPassword" class="sr-only">Password</label>
         <input type="password" id="loginPassword" class="form-control" placeholder="Password" required=""
             name="loginPassword">
-        <button class="btn btn-md btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-md btn-primary btn-block" id="signInBtn" type="submit">Sign in</button>
         <p class="mt-2 mb-1 text-danger">{{loginError}}</p>
         <p class="mt-2 mb-1">Need an account?</p>
         <button class="btn btn-sm btn-secondary btn-block" type="button" data-toggle="modal"
@@ -24,7 +24,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="signUpModalLabel">Sign Up</h5>
+                <h1 class="modal-title" id="signUpModalLabel">Sign Up</h1>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

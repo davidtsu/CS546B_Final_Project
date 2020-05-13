@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/davidtsu/CS546B_Final_Project#readme",
   "dependencies": {
+    "@khanacademy/tota11y": "^0.2.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
