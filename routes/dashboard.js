@@ -73,6 +73,11 @@ router.get('/game', async (req, res, next) => {
     word = t.words[Math.floor(Math.random() * t.words.length)]
   }
 
+  if (word.length === 0 || !word) {
+    res.redirect('/');
+    return;
+  }
+
   res.render('game', {
     title: 'Hangman Game',
     user: req.session.user,
