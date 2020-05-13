@@ -31,7 +31,7 @@ let exportedMethods = {
         const userCollection = await users();
         const user = await userCollection.findOne({ _id: id });
 
-        if (!user) throw new Error(`User with id of ${id} not found`);
+        if (!user) throw `User  not found`;
 
         return user;
     },
