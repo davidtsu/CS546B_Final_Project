@@ -101,6 +101,24 @@ router.post('/game', async (req, res, next) => {
     await users.addGameLostID(currentUserID, currentGameID);
   }
 
+  // Need to update the current user after game submission
+
+  const user = await users.getUserById(currentUserID);
+
+  let userInfo = {
+		_id: user._id,
+		email: user.email,
+		firstName: user.firstName,
+		lastName: user.lastName,
+		city: user.city,
+		state: user.state,
+		gamesPlayedIDs: user.gamesPlayedIDs,
+		gamesWonIDs: user.gamesWonIDs,
+		gamesLostIDs: user.gamesLostIDs
+	}
+	
+	req.session.user = userInfo;
+
   res.redirect(`/dashboard/comments/${currentGameID}`);
 
 });

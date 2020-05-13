@@ -12,14 +12,14 @@
         handleGuess(char) {
             if (!char) throw 'No input.';
             try {
-                let patt=/[A-z]/g;
+                let patt = /[A-z]/g;
                 if (patt.test(char)) {
                     if (guessed.indexOf(char) === -1) {
                         guessed.push(char)
                     } else {
                         throw 'Letter has already been guessed.'
                     }
-                
+
                     if (answer.indexOf(char) >= 0) {
                         this.guessedWord();
                         this.checkResult();
@@ -31,14 +31,14 @@
                     }
                 }
             } catch (err) {
-                throw(err);
+                throw (err);
             }
         },
         guessedWord() {
             wordStatus = []
             alphabets = answer.toUpperCase().split('')
-            for(i = 0; i < alphabets.length; i++ ){
-                if (guessed.includes(alphabets[i])){
+            for (i = 0; i < alphabets.length; i++) {
+                if (guessed.includes(alphabets[i])) {
                     wordStatus.push(alphabets[i])
                 } else {
                     wordStatus.push(' _ ')
@@ -53,30 +53,30 @@
         },
         cycleImage() {
             const img = document.getElementById('chances-left')
-            switch (chancesLeft){
+            switch (chancesLeft) {
                 default:
-                    img.src='/public/img/6_left.png';
+                    img.src = '/public/img/6_left.png';
                     break;
                 case 6:
-                    img.src='/public/img/6_left.png';
+                    img.src = '/public/img/6_left.png';
                     break;
                 case 5:
-                    img.src='/public/img/5_left.png';
+                    img.src = '/public/img/5_left.png';
                     break;
                 case 4:
-                    img.src='/public/img/4_left.png';
+                    img.src = '/public/img/4_left.png';
                     break;
                 case 3:
-                    img.src='/public/img/3_left.png';
+                    img.src = '/public/img/3_left.png';
                     break;
                 case 2:
-                    img.src='/public/img/2_left.png';
+                    img.src = '/public/img/2_left.png';
                     break;
                 case 1:
-                    img.src='/public/img/1_left.png';
+                    img.src = '/public/img/1_left.png';
                     break;
                 case 0:
-                    img.src='/public/img/0_left.png';
+                    img.src = '/public/img/0_left.png';
             }
         },
         checkResult() {
@@ -99,12 +99,12 @@
 
     const gameForm = document.getElementById('game-form');
 
-    if(gameForm) {
+    if (gameForm) {
         const errorContainer = document.getElementById("error-container");
         const errorTextElement = errorContainer.getElementsByClassName('text-goes-here')[0];
 
         gameForm.addEventListener("submit", event => {
-            event.preventDefault();         
+            event.preventDefault();
 
             try {
                 errorContainer.hidden = true;
@@ -144,6 +144,13 @@ function submitGameWin(gid, w) {
         word: w,
         gameWon: true
     }));
+
+    //only redirect once request is complete
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            window.location.href = `/comments/${gid}`
+        }
+    };
 }
 
 //submits the game if lost
@@ -156,4 +163,13 @@ function submitGameLoss(gid, w) {
         word: w,
         gameWon: false
     }));
+
+    //only redirect once request is complete
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            window.location.href = `/comments/${gid}`
+        }
+    };
+
+    ;
 }
