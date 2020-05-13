@@ -1,22 +1,40 @@
 <div>
-    <h1>Game Log</h1>
+    <h1 class='text-center'>Game Log</h1>
 
-    {{#if gameWon}}
-    <p>You won this game!</p>
-    {{else}}
-    <p>You lost this game!</p>
-    {{/if}}
+    <div class='text-center'>
+        <h3>Word: {{game.word}}</h3>
 
+        {{#if gameWon}}
+        <h3 class='success'>You won this game!</h3>
+        {{else}}
+        <h3 class='failure'>You lost this game!</h3>
+        {{/if}}
+    </div>
+
+    <table class='results-stats'>
+        <tr>
+            <td>Players that have won this word:</td>
+            <td>Players that have lost this word:</td>
+        </tr>
+        <tr>
+            <td>{{game.timesWon}}</td>
+            <td>{{game.timesLost}}</td>
+        </tr>
+    </table>
+
+    <label for='comments'>Here's what our users have to say about this word...</label>
     <ul id='comments'>
         {{#each comments}}
         <li>{{this.commenter.name}} : {{this.comment}}</li>
+        {{else}}
+        <li>No users have commented on this word yet. Submit a comment to be the first!</li>
         {{/each}}
     </ul>
 
     <form class='form-comment' action='/comments' method='POST'>
         <label for='phrase'>Leave a comment!</label>
         <textarea id='phrase' rows='2' name='phrase'></textarea>
-        <button class="btn btn-md btn-primary btn-block" type="submit">Send Comment</button>
+        <button type="submit">Send Comment</button>
     </form>
 
     <div>

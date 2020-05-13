@@ -181,7 +181,8 @@ router.get('/comments/:id', async (req, res) => {
       res.render('comments', {
         title: 'Game Log',
         comments: commentList,
-        gameWon: gameWon
+        gameWon: gameWon,
+        game: game
       });
     }
 
