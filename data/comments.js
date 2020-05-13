@@ -22,6 +22,17 @@ const exportedMethods = {
         return post;
     },
 
+    // async getCommentGameId(id) {
+    //     if (!id) throw new Error('You must provide an id');
+    //     const gameCollection = await games();
+    //     const game = await gameCollection.findOne({_id: id});
+
+    //     if (!game) throw 'Post not found';
+
+    //     return game;
+
+    // }
+
     async addCommentToGame(gameId, commenterId, commentText) {
         if (!gameId) throw new Error('You must provide a game id');
         if (!commentText) throw new Error('You must provide a comment');
@@ -44,8 +55,15 @@ const exportedMethods = {
         const newInsertInformation = await commentCollection.insertOne(newComment);
 
         await games.addCommentToGame(gameId, newComment);
-
+        if (newInsertInformation.insertedCount === 0) throw 'Insert failed!';
         return await this.getCommentById(newComment._id);
+    },
+
+    async getCommentByGame(id) {
+        const commentCollection = await comments();
+        const commentList =  await commentCollection.find({gameId: id}).toArray();
+        if(!commentList) throw 'No comments in system';
+        return commentList;
     },
 
 

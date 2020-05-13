@@ -4,7 +4,7 @@ const data = require("../data");
 const games = data.games;
 const dictionaries = data.dictionaries;
 const users = data.users;
-
+const comments = data.comments;
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
@@ -87,10 +87,33 @@ router.get('/game', async (req, res, next) => {
 
 /* GET comments for a game. */
 // TODO: switch to :id, should be specific to comment
-router.get('/comments', async (req, res, next) => {
-  res.render('comments', {
-    title: 'Game Log'
-  });
+router.get('/comments/:id', async (req, res) => {
+  try {
+    //let game = await games.getGameById(req.params.id);
+    let comment = await comments.getCommentByGame(req.params.id);
+    if(comment){
+      console.log(comment);
+      res.render('comments', {
+        title: 'Game Log',
+        users: comment.commenter.name,
+        comment: comment.commentText 
+      });
+    }
+  }catch (err){
+    console.log(err);
+}
+});
+
+router.post('/comments', async (req, res,) => {
+  try {
+    let phrase = req.body.phrase;
+    console.log("Hi");
+    console.log(req.params.id);
+    await comments.addCommentToGame(req.params.id, req.session.user, phrase);
+    res.render('/', {});
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 module.exports = router;
