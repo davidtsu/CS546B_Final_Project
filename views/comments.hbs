@@ -1,17 +1,11 @@
 <div>
     <h1>Game Log</h1>
 
-    <table id='comments'>
-       {{#each comment}}
-            <tr>
-                
-                <td>{{this.commenter.name}}</td>
-
-                <td>{{this.commentText}}</td>
-
-            </tr>
+    <ul id='comments'>
+       {{#each comments}}
+            <li>{{this.commenter.name}} : {{this.commentText}}</li>
         {{/each}}
-    </table>
+    </ul>
 
     <form class='form-comment' action='/comments' method='POST'>
         <label for='phrase'>Leave a comment!</label>
@@ -21,5 +15,7 @@
 
     <div>
         <a href='/dashboard'>Back to Dashboard</a>
-    </div> 
+    </div>
+
+    <script src='/public/js/comments.js'></script>
 </div>
