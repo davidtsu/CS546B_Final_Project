@@ -16,7 +16,7 @@ router.get('/', async (req, res, next) => {
   const allGames = await games.getAllGames();
 
   for (g of allGames) {
-    if (g.latestPlayerId) { 
+    if (g.latestPlayerId) {
       let latestPlayer = await users.getUserById(g.latestPlayerId);
       g.latestPlayer = latestPlayer;
     }
@@ -33,15 +33,25 @@ router.get('/', async (req, res, next) => {
 
 /* GET high scores page. */
 router.get('/highscores', async (req, res, next) => {
+  const allUsers = await users.getAllUsers()
+
+  for (usr of allUsers) {
+    let totalGames = usr.gamesWonIDs.length + usr.gamesLostIDs.length;
+    usr.winPercentage = (usr.gamesWonIDs.length / totalGames) * 100;
+  }
+
+  let sortedUsers = allUsers.sort((a, b) => (a.winPercentage < b.winPercentage) ? 1 ((a.gamesWonIDs.length > b.gamesWonIDs.length) ? 1 : -1): -1);
+
   res.render('highscores', {
     title: 'Hangman High Scores',
-    user: req.session.user
+    user: req.session.user,
+    sortedUsers: sortedUsers
   });
 });
 
 /* GET profile page. */
 
-router.get('/profile', async (req, res, next) => { 
+router.get('/profile', async (req, res, next) => {
   let totalGames = req.session.user.gamesWonIDs.length + req.session.user.gamesLostIDs.length;
   let winPercentage = 0;
   if (totalGames != 0) {
@@ -59,7 +69,7 @@ router.get('/profile', async (req, res, next) => {
 });
 
 /* GET profile page for other users */
-router.get('/profile/:id', async (req, res, next) => { 
+router.get('/profile/:id', async (req, res, next) => {
   let user = await users.getUserById(req.params.id);
   let totalGames = user.gamesWonIDs.length + user.gamesLostIDs.length;
   if (totalGames != 0) {

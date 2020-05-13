@@ -6,8 +6,17 @@
             <td>Rank</td>
             <td>Username</td>
             <td># Wins</td>
+            <td>Win %</td>
         </tr>
-    <!-- additional tr entries should be dynamically filled -->
+        {{#each sortedUsers}}
+        <tr>
+            <td>{{increment @index}}</td>
+            <td><a href="/dashboard/profile/{{this._id}}">{{this.firstName}} {{this.LastName}}</a></td>
+            <td>{{this.gamesWonIDs.length}}</td>
+            <td>{{this.winPercentage}}</td>
+        </tr>
+        {{/each}}
+        <!-- additional tr entries should be dynamically filled -->
     </table>
 
     <script src='/public/highscores.js'></script>
