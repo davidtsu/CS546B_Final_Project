@@ -110,12 +110,21 @@ router.get('/game', async (req, res, next) => {
 
   const game = await games.getGameByWord(word.toUpperCase());
 
-  res.render('game', {
-    title: 'Hangman Game',
-    user: req.session.user,
-    gameId: game._id,
-    word: word,
-  });
+  // Check to see if the user has already played the game,
+  // if they have, redirect them to the results page
+  const alreadyPlayed = await users.userHasPlayed(req.session.user._id, game._id);
+
+  if (alreadyPlayed) {
+    res.redirect(`/dashboard/comments/${game._id}`);
+  } else {
+    res.render('game', {
+      title: 'Hangman Game',
+      user: req.session.user,
+      gameId: game._id,
+      word: word,
+    });
+  }
+
 });
 
 router.post('/game', async (req, res, next) => {
