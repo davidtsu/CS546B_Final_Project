@@ -32,7 +32,7 @@ router.get('/', async (req, res, next) => {
       allGames: allGames
     });
   } catch (err) {
-    res.render('error', {
+    res.status(404).render('error', {
       error: err
     });
   }
@@ -58,7 +58,7 @@ router.get('/allgames', async (req, res, next) => {
       allGames: sortedGames
     });
   } catch (err) {
-    res.render('error', {
+    res.status(404).render('error', {
       error: err
     });
   }
@@ -66,39 +66,51 @@ router.get('/allgames', async (req, res, next) => {
 
 /* GET high scores page. */
 router.get('/highscores', async (req, res, next) => {
-  const allUsers = await users.getAllUsers()
+  try {
+    const allUsers = await users.getAllUsers()
 
-  for (usr of allUsers) {
-    let totalGames = usr.gamesWonIDs.length + usr.gamesLostIDs.length;
-    usr.winPercentage = (usr.gamesWonIDs.length / totalGames) * 100;
+    for (usr of allUsers) {
+      let totalGames = usr.gamesWonIDs.length + usr.gamesLostIDs.length;
+      usr.winPercentage = (usr.gamesWonIDs.length / totalGames) * 100;
+    }
+
+    //sorts by # of wins, then as a secondary sort (e.g. if theres a tie) it sorts on the win %
+    let sortedUsers = allUsers.sort((a, b) => (a.gamesWonIDs.length < b.gamesWonIDs.length) ? 1 : ((a.winPercentage < b.winPercentage) ? 1 : -1));
+
+    res.render('highscores', {
+      title: 'Hangman High Scores',
+      user: req.session.user,
+      sortedUsers: sortedUsers
+    });
+  } catch (err) {
+    res.render('error', {
+      error: err
+    });
   }
-
-  //sorts by # of wins, then as a secondary sort (e.g. if theres a tie) it sorts on the win %
-  let sortedUsers = allUsers.sort((a, b) => (a.gamesWonIDs.length < b.gamesWonIDs.length) ? 1 : ((a.winPercentage < b.winPercentage) ? 1 : -1));
-
-  res.render('highscores', {
-    title: 'Hangman High Scores',
-    user: req.session.user,
-    sortedUsers: sortedUsers
-  });
 });
 
 /* GET profile page. */
 router.get('/profile', async (req, res, next) => {
-  let totalGames = req.session.user.gamesWonIDs.length + req.session.user.gamesLostIDs.length;
-  let winPercentage = 0;
-  if (totalGames != 0) {
-    winPercentage = (req.session.user.gamesWonIDs.length / totalGames) * 100;
-  }
-  let recentGames = await users.getGamesPlayed(req.session.user._id);
+  try {
+    let totalGames = req.session.user.gamesWonIDs.length + req.session.user.gamesLostIDs.length;
+    let winPercentage = 0;
+    if (totalGames != 0) {
+      winPercentage = (req.session.user.gamesWonIDs.length / totalGames) * 100;
+    }
+    let recentGames = await users.getGamesPlayed(req.session.user._id);
 
-  res.render('profile', {
-    title: 'Hangman User Profile',
-    user: req.session.user,
-    win: winPercentage,
-    total: totalGames,
-    recentGames: recentGames
-  });
+    res.render('profile', {
+      title: 'Hangman User Profile',
+      user: req.session.user,
+      win: winPercentage,
+      total: totalGames,
+      recentGames: recentGames
+    });
+  } catch (err) {
+    res.status(404).render('error', {
+      error: err
+    });
+  }
 });
 
 /* GET profile page for other users */
@@ -119,7 +131,7 @@ router.get('/profile/:id', async (req, res, next) => {
       recentGames: recentGames
     });
   } catch (err) {
-    res.render('error', {
+    res.status(404).render('error', {
       error: err
     })
   }
@@ -164,7 +176,7 @@ router.get('/game', async (req, res, next) => {
       });
     }
   } catch (err) {
-    res.render('error', {
+    res.status(404).render('error', {
       error: err
     })
   }
@@ -204,7 +216,7 @@ router.post('/game', async (req, res, next) => {
 
     res.end();
   } catch (err) {
-    res.render('error', {
+    res.status(500).render('error', {
       error: err
     })
   }
@@ -232,7 +244,7 @@ router.get('/comments/:id', async (req, res) => {
       });
     }
   } catch (err) {
-    res.render('error', {
+    res.status(404).render('error', {
       error: err
     })
   }
@@ -243,7 +255,7 @@ router.post('/comments', async (req, res) => {
     const newComment = await comments.addCommentToGame(xss(req.body.gameId), req.session.user._id, xss(req.body.comment));
     res.render('partials/new-comment', {layout: null, ...newComment});
   } catch (err) {
-    res.render('error', {
+    res.status(500).render('error', {
       error: err
     })
   }
