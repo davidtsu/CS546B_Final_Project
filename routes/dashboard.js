@@ -72,7 +72,6 @@ router.get('/highscores', async (req, res, next) => {
 });
 
 /* GET profile page. */
-
 router.get('/profile', async (req, res, next) => {
   let totalGames = req.session.user.gamesWonIDs.length + req.session.user.gamesLostIDs.length;
   let winPercentage = 0;
@@ -145,9 +144,9 @@ router.get('/game', async (req, res, next) => {
       word: word,
     });
   }
-
 });
 
+/* POST game resuts. */
 router.post('/game', async (req, res, next) => {
   //Figure out how to pass these 3 parameters to this POST function
   const currentUserID = req.session.user._id;
@@ -163,7 +162,6 @@ router.post('/game', async (req, res, next) => {
   }
 
   // Need to update the current user after game submission
-
   const user = await users.getUserById(currentUserID);
 
   let userInfo = {
@@ -181,7 +179,6 @@ router.post('/game', async (req, res, next) => {
   req.session.user = userInfo;
 
   res.end();
-
 });
 
 
