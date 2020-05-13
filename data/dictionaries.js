@@ -14,12 +14,12 @@ let exportedMethods = {
     async getDictionaryById(id) {
         const dictionaryCollection = await dictionaries();
         const dictionary = await dictionaryCollection.findOne({ _id: id });
-        if (!dictionary) throw 'Dictionary not found';
+        if (!dictionary) throw new Error('404: Dictionary not found');
         return dictionary;
     },
 
     async addDictionary(theme, wordList) {
-        if (!theme) throw new Error('No theme supplied for dictionary.');
+        if (!theme) throw new Type('No theme supplied for dictionary.');
         if (!wordList) throw new Error('No words provided for dictionary.');
 
         if (typeof theme != 'string') throw new TypeError('theme must be of type string');
@@ -34,7 +34,7 @@ let exportedMethods = {
         const dictionaryCollection = await dictionaries();
         const newInsertInformation = await dictionaryCollection.insertOne(newDictionary);
 
-        if (newInsertInformation.insertedCount === 0) throw 'Insert failed!';
+        if (newInsertInformation.insertedCount === 0) throw new Error('500: Insert failed!');
 
         // Insertion of the dictionary is a success, now create new games 
         // out of each word in the wordList if a game does not already exist
@@ -63,7 +63,7 @@ let exportedMethods = {
         const dictionaryCollection = await dictionaries();
         const deletionInfo = await dictionaryCollection.removeOne({ _id: id });
         if (deletionInfo.deletedCount === 0) {
-            throw `Could not delete dictionary with id of ${id}`;
+            throw `500: Could not delete dictionary with id of ${id}`;
         }
         return true;
     },
@@ -78,7 +78,7 @@ let exportedMethods = {
 
         const dictionaryCollection = await dictionaries();
         const updateInfo = await dictionaryCollection.updateOne({ _id: id }, { $set: dictionaryUpdateInfo });
-        if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw 'Update failed';
+        if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw '500: Update failed';
 
         return await this.getDictionaryById(id);
     }

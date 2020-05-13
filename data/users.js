@@ -20,7 +20,7 @@ let exportedMethods = {
         const userCollection = await users();
         const user = await userCollection.findOne({ email: email });
 
-        if (!user) throw new Error(`User with email of ${email} not found`);
+        if (!user) throw new Error(`404: User with email of ${email} not found`);
 
         return user
     },
@@ -31,7 +31,7 @@ let exportedMethods = {
         const userCollection = await users();
         const user = await userCollection.findOne({ _id: id });
 
-        if (!user) throw `User  not found`;
+        if (!user) throw new Error(`404: User not found`);
 
         return user;
     },
@@ -79,7 +79,7 @@ let exportedMethods = {
             emailExists = false;
         }
 
-        if (emailExists) throw new Error('Email already registered');
+        if (emailExists) throw new Error('500: Email already registered');
 
         let newUser = {
             _id: uuid.v4(),
@@ -97,7 +97,7 @@ let exportedMethods = {
         const userCollection = await users();
         const newInsertInformation = await userCollection.insertOne(newUser);
 
-        if (newInsertInformation.insertedCount === 0) throw new Error('Insert failed!');
+        if (newInsertInformation.insertedCount === 0) throw new Error('500: Insert failed!');
 
         return await this.getUserById(newInsertInformation.insertedId);
     },
@@ -155,7 +155,7 @@ let exportedMethods = {
         const deletionInfo = await userCollection.removeOne({ _id: id });
 
         if (deletionInfo.deletedCount === 0) {
-            throw new Error(`Could not delete user with id of ${id}`);
+            throw new Error(`500: Could not delete user with id of ${id}`);
         }
 
         return true;

@@ -17,7 +17,7 @@ let exportedMethods = {
         const gameCollection = await games();
         const game = await gameCollection.findOne({ _id: id });
 
-        if (!game) throw 'Game not found';
+        if (!game) throw '404: Game not found';
 
         return game;
     },
@@ -29,7 +29,7 @@ let exportedMethods = {
         const gameCollection = await games();
         const game = await gameCollection.findOne({ word: word });
 
-        if (!game) throw new Error(`Game with the word ${word} not found`);
+        if (!game) throw new Error(`404: Game with the word ${word} not found`);
 
         return game;
     },
@@ -51,7 +51,7 @@ let exportedMethods = {
         const allgames = await this.getAllGames();
         const gameNumber = allgames.length + 1;
 
-        if (gameExists) throw new Error(`Game with the word ${word} already exists`);
+        if (gameExists) throw new Error(`500: Game with the word ${word} already exists`);
                 
         let newGame = {
             _id: uuid.v4(),
@@ -69,7 +69,7 @@ let exportedMethods = {
         const gameCollection = await games();
         const newInsertInformation = await gameCollection.insertOne(newGame);
 
-        if (newInsertInformation.insertedCount === 0) throw 'Insert failed!';
+        if (newInsertInformation.insertedCount === 0) throw new Error('500: Insert failed!');
         
         return await this.getGameById(newInsertInformation.insertedId);
     },

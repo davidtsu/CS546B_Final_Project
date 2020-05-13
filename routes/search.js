@@ -12,7 +12,9 @@ router.get('/', async (req, res) => {
     let searchUserList = await users.searchUser(search);
     res.render('search', {searchUserList});
   } catch (err) {
-    console.log(err);
+    res.render('error', {
+      error: err
+    })
   }
 });
 

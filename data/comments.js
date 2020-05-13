@@ -17,7 +17,7 @@ const exportedMethods = {
         const commentCollection = await comments();
         const post = await commentCollection.findOne({ _id: id });
 
-        if (!post) throw 'Post not found';
+        if (!post) throw new Error('404: Post not found');
 
         return post;
     },
@@ -55,14 +55,14 @@ const exportedMethods = {
         const newInsertInformation = await commentCollection.insertOne(newComment);
 
         await games.addCommentToGame(gameId, newComment);
-        if (newInsertInformation.insertedCount === 0) throw 'Insert failed!';
+        if (newInsertInformation.insertedCount === 0) throw new Error('500: Insert failed!');
         return await this.getCommentById(newComment._id);
     },
 
     async getCommentByGame(id) {
         const commentCollection = await comments();
         const commentList =  await commentCollection.find({gameId: id}).toArray();
-        if(!commentList) throw 'No comments in system';
+        if(!commentList) throw new Error('No comments in system');
         return commentList;
     },
 
