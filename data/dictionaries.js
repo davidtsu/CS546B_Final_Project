@@ -6,10 +6,10 @@ const games = require('./games');
 let exportedMethods = {
 
     async getAllDictionaries() {
-        console.log('fetching all dictionaries')
+        // console.log('fetching all dictionaries')
         const dictionaryCollection = await dictionaries();
         const dictionaryList = await dictionaryCollection.find({}).toArray();
-        console.log(dictionaryList)
+        // console.log(dictionaryList)
         return dictionaryList;
     },
 
@@ -72,7 +72,7 @@ let exportedMethods = {
 
     async updateDictionary(id, theme, word_list) {
         const dictionary = await this.getDictionaryById(id);
-        console.log(dictionary);
+        // console.log(dictionary);
 
         const dictionaryUpdateInfo = {
             theme: theme,

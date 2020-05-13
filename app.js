@@ -1,5 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars');
 const session = require('express-session');
 const configRoutes = require('./routes');
 
@@ -31,6 +32,36 @@ app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __
 app.set('view engine', 'hbs');
 
 
+// Handlebars Helpers
+Handlebars.registerHelper("contains", (arr, val) => {
+
+    if (!Array.isArray(arr)) {
+        arr = [arr]
+    }
+    if (arr.indexOf(val) >= 0) {
+        return true;
+    }
+
+    return false;
+});
+
+Handlebars.registerHelper("containsWinner", (user, val) => {
+
+    if (user === undefined) return false;
+
+    let gamesWonIds = user.gamesWonIDs
+    if (gamesWonIds.indexOf(val) >= 0) {
+        return true;
+    }
+
+    return false;
+});
+
+Handlebars.registerHelper('isdefined', function (value) {
+    return value !== undefined;
+});
+
+
 // ----------- Express Session Middleware -----------
 app.use(session({
     name: 'AuthCookie',
@@ -44,7 +75,7 @@ app.use(session({
 
 // Logging requests to console
 app.use(async (req, res, next) => {
-    let {method, originalUrl} = req;
+    let { method, originalUrl } = req;
     let timeStamp = new Date().toUTCString();
     let auth = '(Non-Authenticated User)';
     if (req.session.user) auth = '(Authenticated User)';
@@ -56,15 +87,15 @@ app.use(async (req, res, next) => {
 
 // Must authenticate to get to dashboard
 app.use('/dashboard', (req, res, next) => {
-	if (!req.session.user) {
-		return res.status(403).render('error', {
-			title: 'Error',
-			layout: 'navnolinks',
-			error: 'The user is not logged in'
-		});
-	} else {
-		next();
-	}
+    if (!req.session.user) {
+        return res.status(403).render('error', {
+            title: 'Error',
+            layout: 'navnolinks',
+            error: 'The user is not logged in'
+        });
+    } else {
+        next();
+    }
 });
 
 
@@ -72,6 +103,6 @@ app.use('/dashboard', (req, res, next) => {
 configRoutes(app);
 
 app.listen(3000, () => {
-	console.log("Server running.");
-	console.log('Routes will be running on http://localhost:3000');
+    console.log("Server running.");
+    console.log('Routes will be running on http://localhost:3000');
 });

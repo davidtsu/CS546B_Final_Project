@@ -42,13 +42,15 @@ router.post('/login', async (req, res) => {
 	}
 
 	let userInfo = {
+		_id: user._id,
 		email: user.email,
 		firstName: user.firstName,
 		lastName: user.lastName,
 		city: user.city,
 		state: user.state,
-		gamesWon: user.gamesWon,
-		gamesLost: user.gamesLost
+		gamesPlayedIDs: user.gamesPlayedIDs,
+		gamesWonIDs: user.gamesWonIDs,
+		gamesLostIDs: user.gamesLostIDs
 	}
 	
 	req.session.user = userInfo;
@@ -85,13 +87,15 @@ router.post('/signup', async (req, res) => {
 	const user = await users.getUserByEmail(signupEmail);
 
 	let userInfo = {
+		_id: user._id,
 		email: user.email,
 		firstName: user.firstName,
 		lastName: user.lastName,
 		city: user.city,
 		state: user.state,
-		gamesWon: user.gamesWon,
-		gamesLost: user.gamesLost
+		gamesPlayedIDs: user.gamesPlayedIDs,
+		gamesWonIDs: user.gamesWonIDs,
+		gamesLostIDs: user.gamesLostIDs
 	}
 
 	req.session.user = userInfo;
