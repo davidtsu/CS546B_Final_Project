@@ -14,28 +14,28 @@
             <td>{{user.gamesWonIDs.length}}</td>
             <td>{{total}}</td>
             <td>{{win}}%</td>
-            
+
         </tr>
     </table>
 
     <h4>Recent Games</h4>
     <table id='profile-stats-recent'>
-        
+
         <tr class='table-header'>
-            <td>#</td>
             <td>Word</td>
-            <td>Theme</td>
             <td>W/L</td>
         </tr>
+
         {{#each recentGames}}
         <tr>
-            <td>@index</td>
-            <td>recentGames.word</td>
-            <td>recentGames.partOf</td>
-            <td>?</td>
+            <td>{{this.word}}</td>
+            {{#if (containsWinner ../user this._id)}}
+            <td>Won {{user.firstName}}</td>
+            {{else}}
+            <td>Lost</td>
+            {{/if}}
         </tr>
         {{/each}}
-        <!-- tr entries should be dynamically filled -->
 
     </table>
 </div>

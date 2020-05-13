@@ -47,9 +47,7 @@ router.get('/profile', async (req, res, next) => {
   if (totalGames != 0) {
     winPercentage = (req.session.user.gamesWonIDs.length / totalGames) * 100;
   }
-  let recentGames = await games.getMostRecentID(req.session.user);
-  console.log("Recent Games");
-  console.log(recentGames);
+  let recentGames = await users.getGamesPlayed(req.session.user._id);
 
   res.render('profile', {
     title: 'Hangman User Profile',
@@ -65,13 +63,16 @@ router.get('/profile/:id', async (req, res, next) => {
   let user = await users.getUserById(req.params.id);
   let totalGames = user.gamesWonIDs.length + user.gamesLostIDs.length;
   if (totalGames != 0) {
-    winPercentage = user.gamesWonIDs.length / totalGames;
+    winPercentage = (user.gamesWonIDs.length / totalGames) * 100;
   }
+  let recentGames = await users.getGamesPlayed(user._id);
+
   res.render('profile', {
     title: 'Hangman User Profile',
     user: user,
     win: winPercentage,
-    total: totalGames
+    total: totalGames,
+    recentGames: recentGames
   });
 });
 
