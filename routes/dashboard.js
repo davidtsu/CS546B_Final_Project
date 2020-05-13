@@ -15,7 +15,8 @@ router.get('/', async (req, res, next) => {
 
   const allDict = await dictionaries.getAllDictionaries();
   const allGames = await games.getAllGames();
-
+  const max= await games.getMostPlayedGames();
+  const word= max.word
   for (g of allGames) {
     if (g.latestPlayerId) {
       let latestPlayer = await users.getUserById(g.latestPlayerId);
@@ -28,7 +29,8 @@ router.get('/', async (req, res, next) => {
     user: currentUser,
     userGames: userGames,
     allDictionaries: allDict,
-    allGames: allGames
+    allGames: allGames,
+    max: word
   });
 });
 
