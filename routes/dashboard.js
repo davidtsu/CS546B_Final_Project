@@ -61,7 +61,9 @@ router.get('/profile/:id', async (req, res, next) => {
 router.get('/game', async (req, res, next) => {
   res.render('game', {
     title: 'Hangman Game',
-    user: req.session.user
+    user: req.session.user,
+    themeId: req.query.themeId ? req.query.themeId : null,
+    gameId: req.query.gameId ? req.query.gameId : null
   });
 });
 
