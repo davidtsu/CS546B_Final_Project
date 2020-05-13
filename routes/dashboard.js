@@ -117,7 +117,9 @@ router.post('/game', async (req, res, next) => {
 		gamesLostIDs: user.gamesLostIDs
 	}
 	
-	req.session.user = userInfo;
+  req.session.user = userInfo;
+  
+  res.end();
 
 });
 

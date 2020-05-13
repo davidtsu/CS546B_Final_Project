@@ -172,5 +172,4 @@ function submitGameLoss(gid, w) {
         }
     };
 
-    ;
 }
