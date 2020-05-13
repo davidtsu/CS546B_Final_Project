@@ -40,7 +40,8 @@ router.get('/highscores', async (req, res, next) => {
     usr.winPercentage = (usr.gamesWonIDs.length / totalGames) * 100;
   }
 
-  let sortedUsers = allUsers.sort((a, b) => (a.winPercentage < b.winPercentage) ? 1 ((a.gamesWonIDs.length > b.gamesWonIDs.length) ? 1 : -1): -1);
+  //sorts by # of wins, then as a secondary sort (e.g. if theres a tie) it sorts on the win %
+  let sortedUsers = allUsers.sort((a, b) => (a.gamesWonIDs.length < b.gamesWonIDs.length) ? 1 (( a.winPercentage < b.winPercentage) ? 1 : -1): -1);
 
   res.render('highscores', {
     title: 'Hangman High Scores',
