@@ -74,6 +74,43 @@ let exportedMethods = {
         return await this.getGameById(newInsertInformation.insertedId);
     },
 
+    async incrementTimesWon(id) {
+        if (!id) throw new Error('You must provide an id');
+
+        const g = await this.getGameById(id);
+
+        let timesWon = g.timesWon;
+        timesWon += 1;
+
+        const gameCollection = await games();
+        const updateInfo = await gameCollection.updateOne(
+            {_id: id},
+            {$set: {timesWon: timesWon}}
+        );
+
+        return this.getGameById(id);
+
+    },
+
+    async incrementTimesLost(id) {
+        if (!id) throw new Error('You must provide an id');
+
+        const g = await this.getGameById(id);
+
+        let timesLost = g.timesLost;
+        
+        timesLost += 1;
+
+        const gameCollection = await games();
+        const updateInfo = await gameCollection.updateOne(
+            {_id: id},
+            {$set: {timesLost: timesLost}}
+        );
+
+        return this.getGameById(id);
+
+    },
+
     async removeGame(id) {
         if (!id) throw new Error('You must provide an id');
 

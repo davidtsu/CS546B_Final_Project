@@ -120,6 +120,8 @@ let exportedMethods = {
             {$set: {gamesWonIDs: userGamesWon, gamesPlayedIDs: userGamesPlayed}}
         );
 
+        let incrementWonGame = await games.incrementTimesWon(gameId);
+
         return await this.getUserById(userId);
     },
 
@@ -140,6 +142,8 @@ let exportedMethods = {
             {_id: userId},
             {$set: {gamesLostIDs: userGamesLost, gamesPlayedIDs: userGamesPlayed}}
         );
+
+        let incrementLostGame = await games.incrementTimesLost(gameId);
 
         return await this.getUserById(userId);
     },
