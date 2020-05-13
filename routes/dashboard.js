@@ -193,6 +193,7 @@ router.get('/comments', async (req, res, next) => {
 router.get('/comments/:id', async (req, res) => {
   try {
     let game = await games.getGameById(req.params.id);
+    console.log(game);
     let commentList = game.comments;
 
     let gameWon = await users.userWon(req.session.user._id, game._id);
