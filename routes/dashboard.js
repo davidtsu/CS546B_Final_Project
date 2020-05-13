@@ -213,18 +213,6 @@ router.get('/comments/:id', async (req, res) => {
   }
 });
 
-// router.post('/comments', async (req, res, ) => {
-//   try {
-//     let phrase = req.body.phrase;
-//     console.log("Hi");
-//     console.log(req.params.id);
-//     addComment = await comments.addCommentToGame(req.params.id, req.session.user, phrase);
-//     res.render('partials/phrase', {layout: null, ...addComment});
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
-
 router.post('/comments', async (req, res) => {
   const newComment = await comments.addCommentToGame(req.body.gameId, req.session.user._id, xss(req.body.comment));
   res.render('partials/new-comment', {layout: null, ...newComment});
