@@ -26,10 +26,10 @@
         <label for='comments'>Here's what our users have to say about this word...</label>
         <ul id='comments'>
             {{#each comments}}
-            {{> new-comment}}
-            <!--<li>{{this.commenter.name}} : {{this.comment}}</li>
-            {{else}}
-            <li>No users have commented on this word yet. Submit a comment to be the first!</li>-->
+            {{!-- {{> new-comment}} --}}
+            <li>{{this.commenter.name}} : {{this.comment}}</li>
+            {{!-- {{else}}
+            <li>No users have commented on this word yet. Submit a comment to be the first!</li> --}}
             {{/each}}
         </ul>
     </div>

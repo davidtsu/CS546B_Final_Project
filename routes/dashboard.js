@@ -194,8 +194,8 @@ router.get('/comments', async (req, res, next) => {
 router.get('/comments/:id', async (req, res) => {
   try {
     let game = await games.getGameById(xss(req.params.id));
-    //let commentList = game.comments;
-    let commentList = await comments.getCommentByGame(xss(req.params.id));
+    let commentList = game.comments;
+    // let commentList = await comments.getCommentByGame(xss(req.params.id));
 
     let gameWon = await users.userWon(req.session.user._id, game._id);
 

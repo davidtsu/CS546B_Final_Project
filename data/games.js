@@ -187,7 +187,7 @@ let exportedMethods = {
 
         const commentInfo = {
             commentId: comment._id,
-            comment: comment.commentText,
+            comment: comment.comment,
             commenter: comment.commenter
         }
 
