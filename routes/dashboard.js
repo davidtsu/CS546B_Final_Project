@@ -73,20 +73,50 @@ router.get('/game', async (req, res, next) => {
   }
 
   if (word.length === 0 || !word) {
-    res.redirect('/');
+    res.redirect('/dashboard');
     return;
   }
+
+  const game = await games.getGameByWord(word.toUpperCase());
 
   res.render('game', {
     title: 'Hangman Game',
     user: req.session.user,
-    word: word
+    gameId: game._id,
+    word: word,
+  });
+});
+
+router.post('/game', async (req, res, next) => {
+  //Figure out how to pass these 3 parameters to this POST function
+  const currentUserID = req.session.user._id;
+  const currentGameID = req.body.gameId;
+  const gameWon = req.body.gameWon;
+
+  await games.addPlayer(currentGameID, currentUserID);
+
+  if (gameWon) {
+    await users.addGameWonID(currentUserID, currentGameID);
+  } else {
+    await users.addGameLostID(currentUserID, currentGameID);
+  }
+
+  res.redirect(`/dashboard/comments/${currentGameID}`);
+
+});
+
+
+// TODO: eventually remove this
+router.get('/comments', async (req, res, next) => {
+  res.render('comments', {
+    title: 'Game Log'
   });
 });
 
 /* GET comments for a game. */
 // TODO: switch to :id, should be specific to comment
-router.get('/comments', async (req, res, next) => {
+router.get('/comments/:id', async (req, res, next) => {
+  let game = await games.getGameById(req.params.id);
   res.render('comments', {
     title: 'Game Log'
   });

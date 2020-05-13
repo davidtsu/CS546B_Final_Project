@@ -1,5 +1,7 @@
 (function () {
     const answer = document.currentScript.getAttribute('word').toUpperCase();
+    const gameId = document.currentScript.getAttribute('gameId');
+
     let guessed = [];
     let incorrect = [];
     let wordStatus = null;
@@ -81,13 +83,16 @@
             if (wordStatus === answer) {
                 document.getElementById('game-results').classList.add('success');
                 document.getElementById('game-results').innerHTML = 'You Won!!!';
-                
+
+                submitGameWin(gameId, answer);
             }
+
             if (chancesLeft == 0) {
                 document.getElementById('wordStatus').innerHTML = 'The answer was: ' + answer;
                 document.getElementById('game-results').classList.add('failure');
                 document.getElementById('game-results').innerHTML = 'You Lost!!!';
-                // TODO: send loss to DB
+
+                submitGameLoss(gameId, answer);
             }
         }
     };
@@ -114,6 +119,8 @@
             }
         })
     }
+
+
 })();
 
 // ensures that text input field only takes one capital-letter character.
@@ -126,3 +133,27 @@ function updateDisplay(answer) {
     document.getElementById('wordStatus').innerHTML = ' _ '.repeat(answer.length);
     document.getElementById("error-container").hidden = true;
 };
+
+//submits the game if won
+function submitGameWin(gid, w) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/dashboard/game', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        gameId: gid,
+        word: w,
+        gameWon: true
+    }));
+}
+
+//submits the game if lost
+function submitGameLoss(gid, w) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/dashboard/game', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        gameId: gid,
+        word: w,
+        gameWon: false
+    }));
+}
