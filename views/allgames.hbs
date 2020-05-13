@@ -4,7 +4,7 @@
 
 
         <div class='home-table'>
-            <h2 class="text-center">All Games</h2>
+            <h1 class="text-center">All Games</h1>
             <table id='home-all-recent'>
                 <tr class='table-header'>
                     <td>Game #</td>
@@ -14,7 +14,7 @@
                 {{#each allGames}}
 
                 <tr>
-                    <td><a href="/dashboard/game?gameId={{this._id}}">{{this.gameNumber}}</a></td>
+                    <td><a href="/dashboard/game?gameId={{this._id}}">Game {{this.gameNumber}}</a></td>
                     {{#if (isdefined this.latestPlayer)}}
                     <td><a href="/dashboard/profile/{{this.latestPlayer._id}}">{{this.latestPlayer.firstName}}</a></td>
                     {{#if (containsWinner this.latestPlayer this._id)}}
@@ -23,8 +23,8 @@
                     <td>Lost</td>
                     {{/if}}
                     {{else}}
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    <td>-</td>
+                    <td>-</td>
                     {{/if}}
 
                 </tr>
