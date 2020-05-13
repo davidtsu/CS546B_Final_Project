@@ -11,27 +11,31 @@
             <td>Win Percentage</td>
         </tr>
         <tr>
-            <td>Games Won</td>
-            <td>Games Played</td>
-            <td>W/L Ratio</td>
+            <td>{{user.gamesWonIDs.length}}</td>
+            <td>{{total}}</td>
+            <td>{{win}}%</td>
             
-             {{!-- Fix this to display the ratio, gota use handlebars helpers or something like that --}}
-            {{!-- {{#ifEquals user.gamesPlayed.length 0}}
-            <td> {{user.gamesWon / user.games.length}} </td>
-            {{else}}
-            <td> N/A </td>
-            {{/if}} --}}
         </tr>
     </table>
 
     <h4>Recent Games</h4>
     <table id='profile-stats-recent'>
+        
         <tr class='table-header'>
             <td>#</td>
             <td>Word</td>
             <td>Theme</td>
             <td>W/L</td>
         </tr>
+        {{#each recentGames}}
+        <tr>
+            <td>@index</td>
+            <td>recentGames.word</td>
+            <td>recentGames.partOf</td>
+            <td>?</td>
+        </tr>
+        {{/each}}
         <!-- tr entries should be dynamically filled -->
+
     </table>
 </div>

@@ -40,19 +40,38 @@ router.get('/highscores', async (req, res, next) => {
 });
 
 /* GET profile page. */
-router.get('/profile', async (req, res, next) => {
+
+router.get('/profile', async (req, res, next) => { 
+  let totalGames = req.session.user.gamesWonIDs.length + req.session.user.gamesLostIDs.length;
+  let winPercentage = 0;
+  if (totalGames != 0) {
+    winPercentage = (req.session.user.gamesWonIDs.length / totalGames) * 100;
+  }
+  let recentGames = await games.getMostRecentID(req.session.user);
+  console.log("Recent Games");
+  console.log(recentGames);
+
   res.render('profile', {
     title: 'Hangman User Profile',
-    user: req.session.user
+    user: req.session.user,
+    win: winPercentage,
+    total: totalGames,
+    recentGames: recentGames
   });
 });
 
 /* GET profile page for other users */
 router.get('/profile/:id', async (req, res, next) => { 
   let user = await users.getUserById(req.params.id);
+  let totalGames = user.gamesWonIDs.length + user.gamesLostIDs.length;
+  if (totalGames != 0) {
+    winPercentage = user.gamesWonIDs.length / totalGames;
+  }
   res.render('profile', {
     title: 'Hangman User Profile',
-    user: user
+    user: user,
+    win: winPercentage,
+    total: totalGames
   });
 });
 
