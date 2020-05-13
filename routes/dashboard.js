@@ -1,11 +1,11 @@
 const express = require('express');
+const xss = require('xss');
 const router = express.Router();
 const data = require("../data");
 const games = data.games;
 const dictionaries = data.dictionaries;
 const users = data.users;
 const comments = data.comments;
-const xss  = require('xss'); 
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
@@ -92,7 +92,7 @@ router.get('/profile', async (req, res, next) => {
 
 /* GET profile page for other users */
 router.get('/profile/:id', async (req, res, next) => {
-  let user = await users.getUserById(req.params.id);
+  let user = await users.getUserById(xss(req.params.id));
   let totalGames = user.gamesWonIDs.length + user.gamesLostIDs.length;
   if (totalGames != 0) {
     winPercentage = (user.gamesWonIDs.length / totalGames) * 100;
@@ -111,14 +111,14 @@ router.get('/profile/:id', async (req, res, next) => {
 
 /* GET game page. */
 router.get('/game', async (req, res, next) => {
-  const gameId = (req.query['gameId']) ? req.query['gameId'] : '';
+  const gameId = xss((req.query['gameId']) ? req.query['gameId'] : '');
   let word = ''
   if (gameId) {
     g = await games.getGameById(gameId);
     word = g['word'];
   }
 
-  const themeId = (req.query['themeId']) ? req.query['themeId'] : '';
+  const themeId = xss((req.query['themeId']) ? req.query['themeId'] : '');
   if (req.query['themeId']) {
     t = await dictionaries.getDictionaryById(themeId)
     word = t.words[Math.floor(Math.random() * t.words.length)]
@@ -151,8 +151,8 @@ router.get('/game', async (req, res, next) => {
 router.post('/game', async (req, res, next) => {
   //Figure out how to pass these 3 parameters to this POST function
   const currentUserID = req.session.user._id;
-  const currentGameID = req.body.gameId;
-  const gameWon = req.body.gameWon;
+  const currentGameID = xss(req.body.gameId);
+  const gameWon = xss(req.body.gameWon);
 
   await games.addPlayer(currentGameID, currentUserID);
 
@@ -193,9 +193,9 @@ router.get('/comments', async (req, res, next) => {
 /* GET comments for a game. */
 router.get('/comments/:id', async (req, res) => {
   try {
-    let game = await games.getGameById(req.params.id);
+    let game = await games.getGameById(xss(req.params.id));
     //let commentList = game.comments;
-    let commentList = await comments.getCommentByGame(req.params.id);
+    let commentList = await comments.getCommentByGame(xss(req.params.id));
 
     let gameWon = await users.userWon(req.session.user._id, game._id);
 
@@ -214,7 +214,7 @@ router.get('/comments/:id', async (req, res) => {
 });
 
 router.post('/comments', async (req, res) => {
-  const newComment = await comments.addCommentToGame(req.body.gameId, req.session.user._id, xss(req.body.comment));
+  const newComment = await comments.addCommentToGame(xss(req.body.gameId), req.session.user._id, xss(req.body.comment));
   res.render('partials/new-comment', {layout: null, ...newComment});
 });
 

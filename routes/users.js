@@ -1,4 +1,5 @@
 const express = require('express');
+const xss = require('xss');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const data = require("../data");
@@ -18,7 +19,8 @@ router.get('/', async (req, res) => {
 
 router.post('/login', async (req, res) => {
 
-	let { loginEmail, loginPassword } = req.body;
+	let loginEmail = xss(req.body.loginEmail);
+	let loginPassword = xss(req.body.loginPassword);
 	
 	let user, userFound, match;
 
@@ -58,7 +60,12 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/signup', async (req, res) => {
-	let { signupEmail, signupPassword, signupFirstName, signupLastName, signupCity, signupState } = req.body;
+	let signupEmail = xss(req.body.signupEmail);
+	let signupPassword = xss(req.body.signupPassword);
+	let signupFirstName = xss(req.body.signupFirstName);
+	let signupLastName = xss(req.body.signupLastName);
+	let signupCity = xss(req.body.signupCity);
+	let signupState = xss(req.body.signupState);
 
 	// Ensure that all fields are filled out (it does this client side on the HTML but just making sure here)
 	if (!signupEmail || !signupPassword || !signupFirstName || !signupLastName || !signupCity || !signupState) {
