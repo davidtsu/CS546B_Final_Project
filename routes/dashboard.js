@@ -90,13 +90,11 @@ router.get('/game', async (req, res, next) => {
 router.get('/comments/:id', async (req, res) => {
   try {
     //let game = await games.getGameById(req.params.id);
-    let comment = await comments.getCommentByGame(req.params.id);
-    if(comment){
-      console.log(comment);
+    let commentList = await comments.getCommentByGame(req.params.id);
+    if(commentList){
       res.render('comments', {
         title: 'Game Log',
-        users: comment.commenter.name,
-        comment: comment.commentText 
+        comments: commentList
       });
     }
   }catch (err){

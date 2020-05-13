@@ -5,9 +5,9 @@
        {{#each comment}}
             <tr>
                 
-                <td>{{this}}</td>
+                <td>{{this.commenter.name}}</td>
 
-                <td>{{this}}</td>
+                <td>{{this.commentText}}</td>
 
             </tr>
         {{/each}}
