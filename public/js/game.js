@@ -106,6 +106,7 @@
 
                 const input_char = document.getElementById('atext').value;
                 hangman_methods.handleGuess(input_char);
+                document.getElementById('atext').value = '';
 
             } catch (e) {
                 const message = typeof e === "string" ? e : e.message;
@@ -119,6 +120,10 @@
 // ensures that text input field only takes one capital-letter character.
 function validate(input) {
     input.value = input.value.replace(/\W|\d/g, '').substr(0, 1).toUpperCase();
+};
+
+function reset(input) {
+    input.value = '';
 };
 
 // ensures that word guesses are always displayed, etc.
