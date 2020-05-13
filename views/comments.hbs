@@ -1,16 +1,13 @@
 <div>
     <h1>Game Log</h1>
 
-    <table id='comments'>
-        <!-- Dynamically add the following:
-        <tr>
-            <td>{{username}}</td>
-            <td>{{comment}}</td>
-        </tr>
-        -->
-    </table>
+    <ul id='comments'>
+       {{#each comments}}
+            <li>{{this.commenter.name}} : {{this.commentText}}</li>
+        {{/each}}
+    </ul>
 
-    <form class='form-comment' method='POST'>
+    <form class='form-comment' action='/comments' method='POST'>
         <label for='phrase'>Leave a comment!</label>
         <textarea id='phrase' rows='2' name='phrase'></textarea>
         <button class="btn btn-md btn-primary btn-block" type="submit">Send Comment</button>
@@ -18,5 +15,7 @@
 
     <div>
         <a href='/dashboard'>Back to Dashboard</a>
-    </div> 
+    </div>
+
+    <script src='/public/js/comments.js'></script>
 </div>
