@@ -13,7 +13,7 @@
             </tr>
             {{#each userGames}}
             <tr>
-                <td>{{this.word}}</td>
+                <td><a href="/dashboard/game?gameId={{this._id}}">{{this.word}}</a></td>
                 {{#if (containsWinner ../user this._id)}}
                 <td>Won {{user.firstName}}</td>
                 {{else}}
