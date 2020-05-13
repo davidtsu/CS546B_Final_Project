@@ -170,8 +170,27 @@ let exportedMethods = {
         } catch (err) {
             throw err;
         }
-    }
+    },
+    
+    async totalscore(){
+        //This function returns the users and his  # of wins
+        const all_users = await this.getAllUsers();
+        var hscores =[]
+        var names = []
+        for (x in all_users){
+            var hscore = all_users[x].gamesWonIDs.length
+            var name = all_users[x].firstName
+            hscores.push(hscore)
+            names.push(name)
+        }
 
+        var result = {};
+        for (var i = 0; i<names.length; i++){
+            result[names[i]]= hscores[i]
+        }
+        
+        return result;
+    }
     // async updateUser(id, email, hashedPassword) {
     //     if (!id) throw new Error('You must provide an id');
     //     if (!email) throw new Error('You must provide an email');
