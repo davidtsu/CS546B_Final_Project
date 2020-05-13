@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // ----------- View Engine Setup: Handlebars (extension .hbs instead of .handlebars) -----------
-app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts', partialsDir: ['views/partials/'] }));
+app.engine('hbs', exphbs({ extname: 'hbs', defaultLayout: 'main', layoutsDir: __dirname + '/views/layouts', partialsDir: ['views/partials/']}));
 app.set('view engine', 'hbs');
 
 

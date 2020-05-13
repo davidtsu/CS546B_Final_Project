@@ -1,15 +1,15 @@
-// stub
-
 (function ($) {
-    // Let's start writing AJAX calls!
     console.log("In ajax"); 
-    var commentForm = $('#form-comment'),
-        newCommentInput = $('#phrase'),
-        commentArea = $('#comment-area');
+    var commentForm = $('#form-comment');
+    var newCommentInput = $('#phrase');
+    var commentArea = $('#comment-area');
   
     commentForm.submit(function (event) {
       event.preventDefault();
-      gameId = currentLink.data('id');
+    //   var currentLink = $(this);
+    //   gameId = currentLink.data('id');
+      var currentLink = window.location.pathname.split('/');
+      var gameId = currentLink[3];
       var newComment = newCommentInput.val();
       console.log(newComment);
       if (newComment) {

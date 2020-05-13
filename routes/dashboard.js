@@ -194,7 +194,8 @@ router.get('/comments', async (req, res, next) => {
 router.get('/comments/:id', async (req, res) => {
   try {
     let game = await games.getGameById(req.params.id);
-    let commentList = game.comments;
+    //let commentList = game.comments;
+    let commentList = await comments.getCommentByGame(req.params.id);
 
     let gameWon = await users.userWon(req.session.user._id, game._id);
 
@@ -225,11 +226,8 @@ router.get('/comments/:id', async (req, res) => {
 // });
 
 router.post('/comments', async (req, res) => {
-  console.log("in Post")
-  console.log(req.params.id);
-  
-  const newComment = await comments.addCommentToGame(req.body.id, req.session.user, xss(req.body.comment));
-  res.render('partials/phrase', {layout: null, ...newComment});
+  const newComment = await comments.addCommentToGame(req.body.gameId, req.session.user._id, xss(req.body.comment));
+  res.render('partials/new-comment', {layout: null, ...newComment});
 });
 
 module.exports = router;
