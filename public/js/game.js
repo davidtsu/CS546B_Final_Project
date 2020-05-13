@@ -1,5 +1,5 @@
 (function () {
-    const answer = 'filler'.toUpperCase();          // TODO: REPLACE THIS WITH INPUT WORD
+    const answer = document.currentScript.getAttribute('word').toUpperCase();
     let guessed = [];
     let incorrect = [];
     let wordStatus = null;
@@ -81,13 +81,13 @@
             if (wordStatus === answer) {
                 document.getElementById('game-results').classList.add('success');
                 document.getElementById('game-results').innerHTML = 'You Won!!!';
-                // TODO: send data to DB
+                
             }
             if (chancesLeft == 0) {
                 document.getElementById('wordStatus').innerHTML = 'The answer was: ' + answer;
                 document.getElementById('game-results').classList.add('failure');
                 document.getElementById('game-results').innerHTML = 'You Lost!!!';
-                // TODO: send data to DB
+                // TODO: send loss to DB
             }
         }
     };

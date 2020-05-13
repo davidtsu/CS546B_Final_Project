@@ -59,11 +59,24 @@ router.get('/profile/:id', async (req, res, next) => {
 
 /* GET game page. */
 router.get('/game', async (req, res, next) => {
+  const gameId = (req.query['gameId']) ? req.query['gameId'] : '';
+  let word = ''
+  if (gameId) {
+    g = await games.getGameById(gameId);
+    word = g['word'];
+  }
+
+  const themeId = (req.query['themeId']) ? req.query['themeId'] : '';
+  console.log('tid=', themeId)
+  if (req.query['themeId']) {
+    t = await dictionaries.getDictionaryById(themeId)
+    word = t.words[Math.floor(Math.random() * t.words.length)]
+  }
+
   res.render('game', {
     title: 'Hangman Game',
     user: req.session.user,
-    themeId: req.query.themeId ? req.query.themeId : null,
-    gameId: req.query.gameId ? req.query.gameId : null
+    word: word
   });
 });
 
