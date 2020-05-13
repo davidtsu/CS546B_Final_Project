@@ -61,6 +61,11 @@ Handlebars.registerHelper('isdefined', function (value) {
     return value !== undefined;
 });
 
+Handlebars.registerHelper("increment", function(value, options)
+{
+    return parseInt(value) + 1;
+});
+
 
 // ----------- Express Session Middleware -----------
 app.use(session({

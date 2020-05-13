@@ -1,6 +1,5 @@
 <div class="container-fluid">
     <h1 class="text-center">Welcome, {{user.firstName}} {{user.lastName}}</h1>
-    <p class="text-center">Your Recent Games, Themes to Play, and Recently Played Games displayed here.
     </p>
 
     <div class='home-table'>
@@ -34,7 +33,7 @@
             </tr>
             {{#each allDictionaries}}
             <tr>
-                <td><a href='/dashboard/game&themeId={{this._id}}'>{{this.theme}}</a></td>
+                <td><a href='/dashboard/game?themeId={{this._id}}'>{{this.theme}}</a></td>
             </tr>
             {{/each}}
             <!-- tr entries should be dynamically filled -->
@@ -52,7 +51,7 @@
             {{#each allGames}}
             {{#if (isdefined this.latestPlayer)}}
             <tr>
-                <td><a href="/dashboard/comments/{{this._id}}">{{this.gameNumber}}</a></td>
+                <td><a href="/dashboard/game?gameId={{this._id}}">{{this.gameNumber}}</a></td>
                 <td><a href="/dashboard/profile/{{this.latestPlayer._id}}">{{this.latestPlayer.firstName}}</a></td>
                 {{#if (containsWinner this.latestPlayer this._id)}}
                 <td>Won</td>

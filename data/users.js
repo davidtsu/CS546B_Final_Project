@@ -116,8 +116,8 @@ let exportedMethods = {
 
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
-            {_id: userId},
-            {$set: {gamesWonIDs: userGamesWon, gamesPlayedIDs: userGamesPlayed}}
+            { _id: userId },
+            { $set: { gamesWonIDs: userGamesWon, gamesPlayedIDs: userGamesPlayed } }
         );
 
         let incrementWonGame = await games.incrementTimesWon(gameId);
@@ -139,8 +139,8 @@ let exportedMethods = {
 
         const userCollection = await users();
         const updateInfo = await userCollection.updateOne(
-            {_id: userId},
-            {$set: {gamesLostIDs: userGamesLost, gamesPlayedIDs: userGamesPlayed}}
+            { _id: userId },
+            { $set: { gamesLostIDs: userGamesLost, gamesPlayedIDs: userGamesPlayed } }
         );
 
         let incrementLostGame = await games.incrementTimesLost(gameId);
@@ -163,13 +163,24 @@ let exportedMethods = {
 
     async searchUser(search) {
         try {
-        searchUser = search.toLowerCase();
-        const userCollection = await users();
-        const searchUserList = await userCollection.find({ email: {'$regex': searchUser} }).toArray();
-        return searchUserList;
+            searchUser = search.toLowerCase();
+            const userCollection = await users();
+            const searchUserList = await userCollection.find({ email: { '$regex': searchUser } }).toArray();
+            return searchUserList;
         } catch (err) {
             throw err;
         }
+    },
+
+    async userHasPlayed(userId, gameId) {
+        const usr = await this.getUserById(userId);
+        const gP = usr.gamesPlayedIDs;
+
+        if (gP.includes(gameId)) {
+            return true;
+        }
+
+        return false;
     }
 
     // async updateUser(id, email, hashedPassword) {
