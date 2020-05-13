@@ -38,12 +38,6 @@ Handlebars.registerHelper("contains", (arr, val) => {
     if (!Array.isArray(arr)) {
         arr = [arr]
     }
-
-    console.log(arr);
-    console.log(val);
-    
-    
-
     if (arr.indexOf(val) >= 0) {
         return true;
     }
@@ -53,13 +47,9 @@ Handlebars.registerHelper("contains", (arr, val) => {
 
 Handlebars.registerHelper("containsWinner", (user, val) => {
 
-    console.log(user);
-    console.log(val);
-
     if (user === undefined) return false;
 
     let gamesWonIds = user.gamesWonIDs
-
     if (gamesWonIds.indexOf(val) >= 0) {
         return true;
     }

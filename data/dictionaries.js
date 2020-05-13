@@ -72,7 +72,7 @@ let exportedMethods = {
 
     async updateDictionary(id, theme, word_list) {
         const dictionary = await this.getDictionaryById(id);
-        console.log(dictionary);
+        // console.log(dictionary);
 
         const dictionaryUpdateInfo = {
             theme: theme,
