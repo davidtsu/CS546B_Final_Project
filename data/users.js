@@ -181,6 +181,17 @@ let exportedMethods = {
         }
 
         return false;
+    },
+
+    async userWon(userId, gameId) {
+        const usr = await this.getUserById(userId);
+        const gW = usr.gamesWonIDs;
+
+        if (gW.includes(gameId)) {
+            return true;
+        }
+
+        return false;
     }
 
     // async updateUser(id, email, hashedPassword) {

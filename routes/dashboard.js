@@ -41,7 +41,7 @@ router.get('/highscores', async (req, res, next) => {
   }
 
   //sorts by # of wins, then as a secondary sort (e.g. if theres a tie) it sorts on the win %
-  let sortedUsers = allUsers.sort((a, b) => (a.gamesWonIDs.length < b.gamesWonIDs.length) ? 1 : (( a.winPercentage < b.winPercentage) ? 1 : -1));
+  let sortedUsers = allUsers.sort((a, b) => (a.gamesWonIDs.length < b.gamesWonIDs.length) ? 1 : ((a.winPercentage < b.winPercentage) ? 1 : -1));
 
   res.render('highscores', {
     title: 'Hangman High Scores',
@@ -146,19 +146,19 @@ router.post('/game', async (req, res, next) => {
   const user = await users.getUserById(currentUserID);
 
   let userInfo = {
-		_id: user._id,
-		email: user.email,
-		firstName: user.firstName,
-		lastName: user.lastName,
-		city: user.city,
-		state: user.state,
-		gamesPlayedIDs: user.gamesPlayedIDs,
-		gamesWonIDs: user.gamesWonIDs,
-		gamesLostIDs: user.gamesLostIDs
-	}
-	
+    _id: user._id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    city: user.city,
+    state: user.state,
+    gamesPlayedIDs: user.gamesPlayedIDs,
+    gamesWonIDs: user.gamesWonIDs,
+    gamesLostIDs: user.gamesLostIDs
+  }
+
   req.session.user = userInfo;
-  
+
   res.end();
 
 });
@@ -166,29 +166,31 @@ router.post('/game', async (req, res, next) => {
 
 // TODO: eventually remove this
 router.get('/comments', async (req, res, next) => {
-  res.render('comments', {
-    title: 'Game Log'
-  });
+  res.redirect('/dashboard');
 });
 
 /* GET comments for a game. */
-// TODO: switch to :id, should be specific to comment
 router.get('/comments/:id', async (req, res) => {
   try {
-    //let game = await games.getGameById(req.params.id);
-    let commentList = await comments.getCommentByGame(req.params.id);
-    if(commentList){
+    let game = await games.getGameById(req.params.id);
+    let commentList = game.comments;
+
+    let gameWon = await users.userWon(req.session.user._id, game._id);
+
+    if (commentList) {
       res.render('comments', {
         title: 'Game Log',
-        comments: commentList
+        comments: commentList,
+        gameWon: gameWon
       });
     }
-  }catch (err){
+
+  } catch (err) {
     console.log(err);
-}
+  }
 });
 
-router.post('/comments', async (req, res,) => {
+router.post('/comments', async (req, res, ) => {
   try {
     let phrase = req.body.phrase;
     console.log("Hi");

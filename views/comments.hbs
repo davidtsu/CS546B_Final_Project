@@ -1,9 +1,15 @@
 <div>
     <h1>Game Log</h1>
 
+    {{#if gameWon}}
+    <p>You won this game!</p>
+    {{else}}
+    <p>You lost this game!</p>
+    {{/if}}
+
     <ul id='comments'>
-       {{#each comments}}
-            <li>{{this.commenter.name}} : {{this.commentText}}</li>
+        {{#each comments}}
+        <li>{{this.commenter.name}} : {{this.comment}}</li>
         {{/each}}
     </ul>
 
