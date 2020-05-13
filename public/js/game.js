@@ -153,7 +153,7 @@ function submitGameWin(gid, w) {
     //only redirect once request is complete
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(window.location.href);
+            wait(3000);
             window.location.href = `../dashboard/comments/${gid}`;
         }
     };
@@ -173,8 +173,17 @@ function submitGameLoss(gid, w) {
     //only redirect once request is complete
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            wait(3000);
             window.location.href = `../dashboard/comments/${gid}`;
         }
     };
 
 }
+
+function wait(ms){
+    var start = new Date().getTime();
+    var end = start;
+    while(end < start + ms) {
+      end = new Date().getTime();
+   }
+ }
