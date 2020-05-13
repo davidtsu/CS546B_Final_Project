@@ -71,7 +71,7 @@ router.get('/highscores', async (req, res, next) => {
 
     for (usr of allUsers) {
       let totalGames = usr.gamesWonIDs.length + usr.gamesLostIDs.length;
-      usr.winPercentage = (usr.gamesWonIDs.length / totalGames) * 100;
+      usr.winPercentage = (totalGames !== 0) ? ((usr.gamesWonIDs.length / totalGames) * 100) : 0;
     }
 
     //sorts by # of wins, then as a secondary sort (e.g. if theres a tie) it sorts on the win %
@@ -93,10 +93,7 @@ router.get('/highscores', async (req, res, next) => {
 router.get('/profile', async (req, res, next) => {
   try {
     let totalGames = req.session.user.gamesWonIDs.length + req.session.user.gamesLostIDs.length;
-    let winPercentage = 0;
-    if (totalGames != 0) {
-      winPercentage = (req.session.user.gamesWonIDs.length / totalGames) * 100;
-    }
+    let winPercentage = (totalGames !== 0) ? ((req.session.user.gamesWonIDs.length / totalGames) * 100) : 0;
     let recentGames = await users.getGamesPlayed(req.session.user._id);
 
     res.render('profile', {
@@ -118,9 +115,7 @@ router.get('/profile/:id', async (req, res, next) => {
   try {
     let user = await users.getUserById(xss(req.params.id));
     let totalGames = user.gamesWonIDs.length + user.gamesLostIDs.length;
-    if (totalGames != 0) {
-      winPercentage = (user.gamesWonIDs.length / totalGames) * 100;
-    }
+    winPercentage = (totalGames === 0) ? ((user.gamesWonIDs.length / totalGames) * 100) : 0;
     let recentGames = await users.getGamesPlayed(user._id);
 
     res.render('profile', {
