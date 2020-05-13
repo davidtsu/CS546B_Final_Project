@@ -1,5 +1,7 @@
 (function () {
-    const answer = 'filler'.toUpperCase();          // TODO: REPLACE THIS WITH INPUT WORD
+    const answer = document.currentScript.getAttribute('word').toUpperCase();
+    const gameId = document.currentScript.getAttribute('gameId');
+
     let guessed = [];
     let incorrect = [];
     let wordStatus = null;
@@ -10,14 +12,14 @@
         handleGuess(char) {
             if (!char) throw 'No input.';
             try {
-                let patt=/[A-z]/g;
+                let patt = /[A-z]/g;
                 if (patt.test(char)) {
                     if (guessed.indexOf(char) === -1) {
                         guessed.push(char)
                     } else {
                         throw 'Letter has already been guessed.'
                     }
-                
+
                     if (answer.indexOf(char) >= 0) {
                         this.guessedWord();
                         this.checkResult();
@@ -29,14 +31,14 @@
                     }
                 }
             } catch (err) {
-                throw(err);
+                throw (err);
             }
         },
         guessedWord() {
             wordStatus = []
             alphabets = answer.toUpperCase().split('')
-            for(i = 0; i < alphabets.length; i++ ){
-                if (guessed.includes(alphabets[i])){
+            for (i = 0; i < alphabets.length; i++) {
+                if (guessed.includes(alphabets[i])) {
                     wordStatus.push(alphabets[i])
                 } else {
                     wordStatus.push(' _ ')
@@ -51,55 +53,58 @@
         },
         cycleImage() {
             const img = document.getElementById('chances-left')
-            switch (chancesLeft){
+            switch (chancesLeft) {
                 default:
-                    img.src='/public/img/6_left.png';
+                    img.src = '/public/img/6_left.png';
                     break;
                 case 6:
-                    img.src='/public/img/6_left.png';
+                    img.src = '/public/img/6_left.png';
                     break;
                 case 5:
-                    img.src='/public/img/5_left.png';
+                    img.src = '/public/img/5_left.png';
                     break;
                 case 4:
-                    img.src='/public/img/4_left.png';
+                    img.src = '/public/img/4_left.png';
                     break;
                 case 3:
-                    img.src='/public/img/3_left.png';
+                    img.src = '/public/img/3_left.png';
                     break;
                 case 2:
-                    img.src='/public/img/2_left.png';
+                    img.src = '/public/img/2_left.png';
                     break;
                 case 1:
-                    img.src='/public/img/1_left.png';
+                    img.src = '/public/img/1_left.png';
                     break;
                 case 0:
-                    img.src='/public/img/0_left.png';
+                    img.src = '/public/img/0_left.png';
             }
         },
         checkResult() {
             if (wordStatus === answer) {
                 document.getElementById('game-results').classList.add('success');
                 document.getElementById('game-results').innerHTML = 'You Won!!!';
-                // TODO: send data to DB
+
+                submitGameWin(gameId, answer);
             }
+
             if (chancesLeft == 0) {
                 document.getElementById('wordStatus').innerHTML = 'The answer was: ' + answer;
                 document.getElementById('game-results').classList.add('failure');
                 document.getElementById('game-results').innerHTML = 'You Lost!!!';
-                // TODO: send data to DB
+
+                submitGameLoss(gameId, answer);
             }
         }
     };
 
     const gameForm = document.getElementById('game-form');
 
-    if(gameForm) {
+    if (gameForm) {
         const errorContainer = document.getElementById("error-container");
         const errorTextElement = errorContainer.getElementsByClassName('text-goes-here')[0];
 
         gameForm.addEventListener("submit", event => {
-            event.preventDefault();         
+            event.preventDefault();
 
             try {
                 errorContainer.hidden = true;
@@ -115,6 +120,8 @@
             }
         })
     }
+
+
 })();
 
 // ensures that text input field only takes one capital-letter character.
@@ -131,3 +138,43 @@ function updateDisplay(answer) {
     document.getElementById('wordStatus').innerHTML = ' _ '.repeat(answer.length);
     document.getElementById("error-container").hidden = true;
 };
+
+//submits the game if won
+function submitGameWin(gid, w) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/dashboard/game', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        gameId: gid,
+        word: w,
+        gameWon: true
+    }));
+
+    //only redirect once request is complete
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(window.location.href);
+            window.location.href = `../dashboard/comments/${gid}`;
+        }
+    };
+}
+
+//submits the game if lost
+function submitGameLoss(gid, w) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/dashboard/game', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+        gameId: gid,
+        word: w,
+        gameWon: false
+    }));
+
+    //only redirect once request is complete
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            window.location.href = `../dashboard/comments/${gid}`;
+        }
+    };
+
+}
