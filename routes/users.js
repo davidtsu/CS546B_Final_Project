@@ -60,6 +60,26 @@ router.post('/login', async (req, res) => {
 router.post('/signup', async (req, res) => {
 	let { signupEmail, signupPassword, signupFirstName, signupLastName, signupCity, signupState } = req.body;
 
+	// Ensure that all fields are filled out (it does this client side on the HTML but just making sure here)
+	if (!signupEmail || !signupPassword || !signupFirstName || !signupLastName || !signupCity || !signupState) {
+		let signupInfo = {
+			email: signupEmail,
+			password: signupPassword,
+			firstName: signupFirstName,
+			lastName: signupLastName,
+			city: signupCity,
+			state: signupState
+		}
+		res.status(401).render('login', {
+			title: 'Login',
+			signupError: 'Missing signup fields',
+			layout: 'navnolinks',
+			signupAttempt: signupInfo
+		});
+		return;
+	}
+
+
 	let hashedPassword = await bcrypt.hash(signupPassword, 16);
 
 	try {
