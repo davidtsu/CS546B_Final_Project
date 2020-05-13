@@ -22,24 +22,29 @@
         </tr>
     </table>
 
-    <label for='comments'>Here's what our users have to say about this word...</label>
-    <ul id='comments'>
-        {{#each comments}}
-        <li>{{this.commenter.name}} : {{this.comment}}</li>
-        {{else}}
-        <li>No users have commented on this word yet. Submit a comment to be the first!</li>
-        {{/each}}
-    </ul>
+    <div id="comment-area">
+        <label for='comments'>Here's what our users have to say about this word...</label>
+        <ul id='comments'>
+            {{#each comments}}
+            {{> new-comment}}
+            <!--<li>{{this.commenter.name}} : {{this.comment}}</li>
+            {{else}}
+            <li>No users have commented on this word yet. Submit a comment to be the first!</li>-->
+            {{/each}}
+        </ul>
+    </div>
 
-    <form class='form-comment' action='/comments' method='POST'>
+    <!--<div id="comment-area">
+            {{#each comments}} {{> new-comment}} {{/each}}
+    </div>-->
+
+    <form id="form-comment">
         <label for='phrase'>Leave a comment!</label>
-        <textarea id='phrase' rows='2' name='phrase'></textarea>
+        <textarea id='phrase' rows='2' name='phrase'></textarea> 
         <button type="submit">Send Comment</button>
     </form>
 
-    <div>
         <a href='/dashboard'>Back to Dashboard</a>
-    </div>
 
     <script src='/public/js/comments.js'></script>
 </div>
