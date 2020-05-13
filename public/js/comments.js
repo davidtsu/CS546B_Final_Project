@@ -6,12 +6,9 @@
   
     commentForm.submit(function (event) {
       event.preventDefault();
-    //   var currentLink = $(this);
-    //   gameId = currentLink.data('id');
       var currentLink = window.location.pathname.split('/');
       var gameId = currentLink[3];
       var newComment = newCommentInput.val();
-      console.log(newComment);
       if (newComment) {
           var requestConfig = {
             method: 'POST',
@@ -24,7 +21,6 @@
           };
   
           $.ajax(requestConfig).then(function (responseMessage) {
-            console.log(responseMessage);
             var newElement = $(responseMessage);
             commentArea.append(newElement);
           });
