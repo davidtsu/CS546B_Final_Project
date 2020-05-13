@@ -44,7 +44,7 @@ const exportedMethods = {
 
         const newComment = {
             _id: uuid.v4(),
-            comment: commentText,
+            commentText: commentText,
             gameId: gameId,
             commenter: {
                 commenterId: commenterId,
