@@ -148,7 +148,8 @@ function submitGameWin(gid, w) {
     //only redirect once request is complete
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            window.location.href = `/comments/${gid}`
+            console.log(window.location.href);
+            window.location.href = `../dashboard/comments/${gid}`;
         }
     };
 }
@@ -167,7 +168,7 @@ function submitGameLoss(gid, w) {
     //only redirect once request is complete
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            window.location.href = `/comments/${gid}`
+            window.location.href = `../dashboard/comments/${gid}`;
         }
     };
 

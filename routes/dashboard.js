@@ -119,8 +119,6 @@ router.post('/game', async (req, res, next) => {
 	
 	req.session.user = userInfo;
 
-  res.redirect(`/dashboard/comments/${currentGameID}`);
-
 });
 
 
