@@ -8,10 +8,14 @@ let exportedMethods = {
     async getAllDictionaries() {
         const dictionaryCollection = await dictionaries();
         const dictionaryList = await dictionaryCollection.find({}).toArray();
+        if (!dictionaryList) throw new Error('Dictionary not found');
         return dictionaryList;
     },
 
     async getDictionaryById(id) {
+        if (!id) throw new Error('You must provide an id');
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
+
         const dictionaryCollection = await dictionaries();
         const dictionary = await dictionaryCollection.findOne({ _id: id });
         if (!dictionary) throw new Error('404: Dictionary not found');
@@ -22,7 +26,7 @@ let exportedMethods = {
         if (!theme) throw new Type('No theme supplied for dictionary.');
         if (!wordList) throw new Error('No words provided for dictionary.');
 
-        if (typeof theme != 'string') throw new TypeError('theme must be of type string');
+        if (typeof theme !== 'string') throw new TypeError('theme must be of type string');
         if (!Array.isArray(wordList)) throw new TypeError('word_list');
 
         let newDictionary = {
@@ -60,15 +64,26 @@ let exportedMethods = {
     },
 
     async removeDictionary(id) {
+        if (!id) throw new Error('You must provide an id');
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
+
         const dictionaryCollection = await dictionaries();
         const deletionInfo = await dictionaryCollection.removeOne({ _id: id });
         if (deletionInfo.deletedCount === 0) {
-            throw `500: Could not delete dictionary with id of ${id}`;
+            throw new Error(`500: Could not delete dictionary with id of ${id}`);
         }
         return true;
     },
 
     async updateDictionary(id, theme, word_list) {
+        if (!id) throw new Error('You must provide an id');
+        if (!theme) throw new Type('No theme supplied for dictionary.');
+        if (!wordList) throw new Error('No words provided for dictionary.');
+
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
+        if (typeof theme !== 'string') throw new TypeError('theme must be of type string');
+        if (!Array.isArray(wordList)) throw new TypeError('word_list');
+
         const dictionary = await this.getDictionaryById(id);
 
         const dictionaryUpdateInfo = {
@@ -78,7 +93,7 @@ let exportedMethods = {
 
         const dictionaryCollection = await dictionaries();
         const updateInfo = await dictionaryCollection.updateOne({ _id: id }, { $set: dictionaryUpdateInfo });
-        if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw '500: Update failed';
+        if (!updateInfo.matchedCount && !updateInfo.modifiedCount) throw new Error('500: Update failed');
 
         return await this.getDictionaryById(id);
     }
