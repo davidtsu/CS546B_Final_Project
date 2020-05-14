@@ -75,6 +75,10 @@ td {
     height: 39px;
 }
 
+#atext {
+    text-align: center;
+}
+
 
 #signInBtn {
     background-color: #0072ee;

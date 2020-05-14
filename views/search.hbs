@@ -1,15 +1,18 @@
 <div class="container-fluid">
 
-    <h1 class='text-center'>Search Results</h1>
+    <div class="row justify-content-center">
+        <h1 class='text-center'>Search Results</h1>
+    </div>
 
-    
-    <ul class="user_list"></ul>
-        {{#each searchUserList}}
+    <div class="row justify-content-center">
+        <ul class="user_list">
+            {{#each searchUserList}}
             <li>
                 <a href="/dashboard/profile/{{this._id}}">{{this.email}}</a>
             </li>
             {{else}}
             <p>No User found</p>
-        {{/each}}
-    </ul>
+            {{/each}}
+        </ul>
+    </div>
 </div>
