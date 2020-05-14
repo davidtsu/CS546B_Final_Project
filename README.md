@@ -25,3 +25,7 @@ npm start
 ```
 This starts a server and listens on port 3000 for connections.
 Then, load http://localhost:3000/ in a browser to see the output.
+
+example login ingo:
+email: barry@gmail.com
+password: burger
