@@ -235,9 +235,8 @@ let exportedMethods = {
         const gameList = await gameCollection.find({playedBy: id}).limit(10).toArray();
         return gameList;
     },
-
     
-    async getMostPlayedGames(){
+    async getMostPlayedGames() {
         let gameplayed = []       
         let word = []
         const games = await this.getAllGames();
