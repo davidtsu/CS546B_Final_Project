@@ -8,23 +8,26 @@ let exportedMethods = {
     async getAllGames() {
         const gameCollection = await games();
         const gameList = await gameCollection.find({}).toArray();
+        if (!gameList) throw new Error('404: Game not found');
         return gameList;
     },
 
     async getGameById(id) {
         if (!id) throw new Error('You must provide an id');
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
+
 
         const gameCollection = await games();
         const game = await gameCollection.findOne({ _id: id });
 
-        if (!game) throw '404: Game not found';
+        if (!game) throw new Error('404: Game not found');
 
         return game;
     },
 
     async getGameByWord(word) {
         if (!word) throw new Error('You must provide a word');
-        if (typeof word != 'string') throw new TypeError('word must be a string');
+        if (typeof word !== 'string') throw new TypeError('word must be a string');
 
         const gameCollection = await games();
         const game = await gameCollection.findOne({ word: word });
@@ -36,7 +39,7 @@ let exportedMethods = {
 
     async addGame(word) {
         if (!word) throw new Error('You must provide a word');
-        if (typeof word != 'string') throw new TypeError('word must be a string');
+        if (typeof word !== 'string') throw new TypeError('word must be a string');
 
         word = word.toUpperCase();
 
@@ -76,6 +79,7 @@ let exportedMethods = {
 
     async incrementTimesWon(id) {
         if (!id) throw new Error('You must provide an id');
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
 
         const g = await this.getGameById(id);
 
@@ -94,6 +98,7 @@ let exportedMethods = {
 
     async incrementTimesLost(id) {
         if (!id) throw new Error('You must provide an id');
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
 
         const g = await this.getGameById(id);
 
@@ -113,11 +118,12 @@ let exportedMethods = {
 
     async removeGame(id) {
         if (!id) throw new Error('You must provide an id');
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
 
         const gameCollection = await games();
         const deletionInfo = await gameCollection.removeOne({ _id: id });
         if (deletionInfo.deletedCount === 0) {
-            throw `Could not delete game with id of ${id}`;
+            throw new Error(`Could not delete game with id of ${id}`);
         }
         return true;
     },
@@ -166,6 +172,11 @@ let exportedMethods = {
         if (!gameId) throw new Error('You must provide a gameId');
         if (!dictionaryId) throw new Error('You must provide a dictionaryId');
 
+        if (typeof gameId !== 'string') throw new TypeError('gameId must be a string');
+        if (typeof dictionaryId !== 'string') throw new TypeError('dictionaryId must be a string');
+
+
+
         const game = await this.getGameById(gameId);
 
         let themeList = game.partOf;
@@ -182,8 +193,10 @@ let exportedMethods = {
     },
 
     async addCommentToGame(gameId, comment) {
-        if (!gameId) throw new Error('You must provide an id');
+        if (!gameId) throw new Error('You must provide a gameId');
         if (!comment) throw new Error('You must provide a comment');
+
+        if (typeof gameId !== 'string') throw new TypeError('gameId must be a string');
 
         const commentInfo = {
             commentId: comment._id,
@@ -206,6 +219,9 @@ let exportedMethods = {
         if (!gameId) throw new Error('You must provide a gameId');
         if (!userId) throw new Error('You must provide a userId');
 
+        if (typeof gameId !== 'string') throw new TypeError('gameId must be a string');
+        if (typeof userId !== 'string') throw new TypeError('userId must be a string');
+
         const game = await this.getGameById(gameId);
 
         let userPlayedList = game.playedBy;
@@ -225,14 +241,17 @@ let exportedMethods = {
     async getMostRecent() {
         const gameCollection = await games();
         const gameList = await gameCollection.find({}).limit(10).toArray();
+        if (!gameList) throw new Error('404: Game not found');
         return gameList;
     },
 
     async getMostRecentID(id) {
         if (!id) throw new Error('You must provide an id');
+        if (typeof id !== 'string') throw new TypeError('id must be a string');
 
         const gameCollection = await games();
         const gameList = await gameCollection.find({playedBy: id}).limit(10).toArray();
+        if (!gameList) throw new Error('404: Game not found');
         return gameList;
     }
 
