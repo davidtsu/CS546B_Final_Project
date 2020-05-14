@@ -29,12 +29,16 @@ const main = async () => {
 	// adding sample dictionaries
 	const beach_dict = await dictionaries.addDictionary('Beach', ['sand', 'beach', 'surfing', 'waves', 'boardwalk', 'surfboard', 'shore', 'coast', 'sandbar']);
 	const camping_dict = await dictionaries.addDictionary('Camping', ['backpack', 'fishing', 'campfire', 'forest', 'birds', 'animals', 'trees', 'waterfall']);
-	const eu_dict = await dictionaries.addDictionary('European Countries', ['Russia', 'France', 'Italy', 'Germany', 'United Kingdom', 'Albania', 'Portugal',
+	const eu_dict = await dictionaries.addDictionary('European Countries', ['Russia', 'France', 'Italy', 'Germany', 'Britain', 'Albania', 'Portugal',
 		'Spain', 'Ukraine', 'Poland', 'Romania', 'Netherlands', 'Belgium', 'Greece',
-		'Czech Republic', 'Sweden', 'Hungary', 'Belarus', 'Austria', 'Serbia', 'Switzerland',
+		'Sweden', 'Hungary', 'Belarus', 'Austria', 'Serbia', 'Switzerland',
 		'Bulgaria', 'Denmark', 'Finland', 'Slovakia', 'Norway', 'Ireland', 'Croatia', 'Moldova']);
 	// there are definitely more, but I figured I should make at least one large list
-
+	const cars_dict = await dictionaries.addDictionary('Cars', ['Toyota', 'Honda', 'Ford', 'Chevrolet', 'BMW', 'Ferrari', 'Lamborghini', 'Volkswagen', 'Audi', 'Mercedes']);
+	const birds_dict = await dictionaries.addDictionary('Birds', ['Cardinal', 'Eagle', 'Woodpecker', 'Pigeon', 'Seagull', 'Finch', 'Jay', 'Ostrich', 'Penguin', 'Hawk']);
+	const color_dict = await dictionaries.addDictionary('Colors', ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple', 'White', 'Black', 'Brown', 'Gray']);
+	const college_dict = await dictionaries.addDictionary('Colleges', ['Stanford', 'Harvard', 'Yale', 'Princeton', 'MIT', 'Stevens', 'Cornell', 'Duke']);
+	const food_dict = await dictionaries.addDictionary('Food', ['Hamburger', 'Fries', 'Milkshake', 'Steak', 'Cheetoes', 'Salad', 'Rice', 'Sushi', 'Pizza'])
 
 	const gameGuitar = await games.addGame('guitar');
 
