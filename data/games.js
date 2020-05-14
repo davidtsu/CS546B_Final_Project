@@ -253,6 +253,28 @@ let exportedMethods = {
         const gameList = await gameCollection.find({playedBy: id}).limit(10).toArray();
         if (!gameList) throw new Error('404: Game not found');
         return gameList;
+    },
+    
+    async getMostPlayedGames() {
+        let gameplayed = []       
+        let word = []
+        const games = await this.getAllGames();
+        
+        for (x in games){
+            var high = games[x].playedBy.length
+            var wordof =  games[x].word;
+            if (high > 0){
+                high = games[x].playedBy.length;
+                wordof =  games[x].word;    
+            }
+        }
+        word.push(wordof)
+        gameplayed.push(high)
+        result = {
+            word: word,
+            max: gameplayed
+        }
+        return result;
     }
 
 };
