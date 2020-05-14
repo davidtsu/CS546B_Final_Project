@@ -115,7 +115,7 @@ router.get('/profile/:id', async (req, res, next) => {
   try {
     let user = await users.getUserById(xss(req.params.id));
     let totalGames = user.gamesWonIDs.length + user.gamesLostIDs.length;
-    winPercentage = (totalGames === 0) ? ((user.gamesWonIDs.length / totalGames) * 100) : 0;
+    winPercentage = (totalGames !== 0) ? ((user.gamesWonIDs.length / totalGames) * 100) : 0;
     let recentGames = await users.getGamesPlayed(user._id);
 
     res.render('profile', {
