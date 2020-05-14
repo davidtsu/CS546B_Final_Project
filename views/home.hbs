@@ -56,7 +56,7 @@
                 {{#each allGames}}
                 {{#if (isdefined this.latestPlayer)}}
                 <tr>
-                    <td><a href="/dashboard/game?gameId={{this._id}}">{{this.gameNumber}}</a></td>
+                    <td><a href="/dashboard/game?gameId={{this._id}}">Game {{this.gameNumber}}</a></td>
                     <td><a href="/dashboard/profile/{{this.latestPlayer._id}}">{{this.latestPlayer.firstName}}</a></td>
                     {{#if (containsWinner this.latestPlayer this._id)}}
                     <td>Won</td>
@@ -72,14 +72,12 @@
             </table>
         </div>
 
-
         <div class='home-table'>
             <h2>Most Played</h2>
             <table id='home-all-recent'>
                 <tr class='table-header'>
                     <td>Word </td>
                 </tr>
-                
                 <tr>
                     <td>{{mostPlayed}}</td>
                 </tr>
@@ -87,7 +85,5 @@
                 <!-- tr entries should be dynamically filled -->
             </table>
         </div>
-
-
     </div>
 </div>

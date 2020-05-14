@@ -1,5 +1,4 @@
 (function ($) {
-    console.log("In ajax"); 
     var commentForm = $('#form-comment');
     var newCommentInput = $('#phrase');
     var commentArea = $('#comment-area');
