@@ -44,7 +44,7 @@ const main = async () => {
 	const harryPlaysGuitar = await games.addPlayer(gameGuitar._id, harry._id);
 	const harryWinsGuitar = await users.addGameWonID(harry._id, gameGuitar._id);
 
-	const most = await games.getMostPlayedGames();
+	const most = await games.getMostPlayedWords();
 	console.log(most)
 
 	await db.serverConfig.close();

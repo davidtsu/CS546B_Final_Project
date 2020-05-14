@@ -237,26 +237,29 @@ let exportedMethods = {
     },
 
     
-    async getMostPlayedGames(){
+    async getMostPlayedWords(){
         let gameplayed = []       
         let word = []
         const games = await this.getAllGames();
         
         for (x in games){
-            var high = games[x].playedBy.length
-            var wordof =  games[x].word;
-            if (high > 0){
+            if(games[x].playedBy.length>0){
                 high = games[x].playedBy.length;
-                wordof =  games[x].word;    
+                wordof =  games[x].word;
+                word.push(wordof)
+                gameplayed.push(high)
             }
         }
-        word.push(wordof)
-        gameplayed.push(high)
-        result = {
-            word: word,
-            max: gameplayed
+        let result = {}
+        word.forEach((key, i) => result[key] = gameplayed[i]);
+        
+        var keySorted = Object.keys(result).sort(function(a,b){return result[a]-result[b]})
+        var words =[]
+        for (var x =keySorted.length-1; x>=0; x--){
+            words.push(keySorted[x])
         }
-        return result;
+        return words
+
     }
 
 };
